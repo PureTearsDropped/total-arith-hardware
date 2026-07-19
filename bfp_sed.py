@@ -340,15 +340,31 @@ def div(a, b, W, Emax=None):
 # ---------------------------------------------------------------- テンソル積（MAC）
 def tensor_mac(pairs, W, Emax=None):
     """Σ_i (A_i × B_i) を ブロック浮動で積和（各積は正規化せず、最後に一度）。
-    pairs: [(A_0,B_0), ...] の BF 対。SPEC の carry-save MAC の骨格。"""
+    pairs: [(A_0,B_0), ...] の BF 対。SPEC の carry-save MAC の骨格。
+
+    2026-07-19 修正（外部AI監査 第3ラウンドの 同族バグ捜索で 自前発見）:
+    旧版は BF(prod, E) で 積を 作る際に **入力の bound/sunk を 捨てていた**
+    （(±10)×(3) が 「=」を 主張 = 符号の嘘）。mul と 同じ 区間伝播を 積ごとに 付ける。"""
     acc = None
     for A, B in pairs:
         # 積は full-width（正規化しない）で厳密に貯める
         prod = ref_mult(A.mant, B.mant)
         E = A.E + B.E
-        p = BF(prod, E)
+        inputs_exact = (all(x == EQ for x in A.bound) and all(x == EQ for x in B.bound)
+                        and not any(A.sunk) and not any(B.sunk))
+        if inputs_exact:
+            p = BF(prod, E)
+        else:
+            ai = [_ival(A.mant[i], A.bound[i], A.sunk[i]) for i in range(M)]
+            bi = [_ival(B.mant[i], B.bound[i], B.sunk[i]) for i in range(M)]
+            bound = [EQ] * M; sunk = [False] * M
+            for k in range(M):
+                lo, hi = _ac_interval(ai, bi, k)
+                bound[k], sunk[k] = _flags_for(prod[k], lo, hi)
+            p = BF(prod, E, bound, sunk)
         acc = p if acc is None else add(acc, p, W=10**9)     # 貯める間は正規化しない
-    m, Ep, bound = normalize(acc.mant, acc.E, W, Emax)        # 最後に一度だけ
+    m, Ep, nbound = normalize(acc.mant, acc.E, W, Emax)       # 最後に一度だけ
+    bound = [acc.bound[k] | nbound[k] for k in range(M)]      # 区間フラグ | 丸めフラグ
     return BF(m, Ep, bound, acc.sunk)
 
 
