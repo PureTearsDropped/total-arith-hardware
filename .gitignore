@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+sim_build/
+results.xml
+*.vcd
+*.vvp
+dump.fst
+.pytest_cache/
+
+# FPGA build intermediates (regenerable; only the .bit ships)
+*.frames
+*.fasm
+rtl/fpga/*.json
+nextpnr.log
+vivado_build.log

@@ -1,0 +1,4 @@
+numpy>=2.0
+scipy>=1.14
+
+# HDL (rtl/) additionally needs: cocotb + iverilog or verilator (system packages)
