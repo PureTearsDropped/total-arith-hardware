@@ -92,3 +92,17 @@ These three are, in effect, **three backends of one total-arithmetic contract** 
 ## License
 
 Zero-Clause BSD (0BSD). See `LICENSE`. Do whatever you want; no attribution required.
+
+### `gate_series.py` — transcendental functions in gates (coefficient tape × chained (U,V,W) units)
+
+`exp`/`sin` as a FIXED WIRING — no branches, no loops, no matrix inverse: a compile-time
+coefficient tape (K1: dyadic constants `round(2^P/k!)·2^-P`) drives a chain of
+`bf_bilinear_unit`s; scaling `2^-s` is an exponent subtract (base-2 reattachment, **zero
+gates**); swapping the tape swaps the function (exp ↔ sin) on the same skeleton. Two-level
+honesty: ① the gate graph equals its exact rational (Fraction) spec **exactly** (EXACT mode,
+no normalization — asserted for quaternion exp/sin and sedenion exp), ② the spec's distance
+to the true function is measured (tape quantization + truncation), with a bits-in→accuracy
+dial (1.9e-2 → 5.1e-3). Measured cost law of EXACT mode: 86M gates (order 4) → 263M
+(order 6) → 4.3B (order 8 + 2 squarings, mantissa width 477) — squaring is the gate
+monster, so practical circuits need per-stage `block_normalize` (honest rounding + ge/le
+flags); connecting that to `bfp_sed`'s interval machinery is the declared next step.
