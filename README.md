@@ -106,3 +106,17 @@ dial (1.9e-2 → 5.1e-3). Measured cost law of EXACT mode: 86M gates (order 4) �
 (order 6) → 4.3B (order 8 + 2 squarings, mantissa width 477) — squaring is the gate
 monster, so practical circuits need per-stage `block_normalize` (honest rounding + ge/le
 flags); connecting that to `bfp_sed`'s interval machinery is the declared next step.
+
+### `bfp_series.py` — the normalized series unit (the declared next step, done)
+
+Answers `gate_series.py`'s measured 4.3B-gate explosion: chain `bfp_sed`'s honest-rounding
+`mul`/`add` (oracle-verified flag algebra) into the same tape-driven series — per-stage
+normalization to W digits makes cost linear in order. The END-TO-END claim is then
+falsified against the ideal (unrounded, exact-Fraction) computation: output flags
+{=, ≥, ≤, ±} must admit the ideal value per component. Results: 0 violations across
+sedenion exp (20 seeds × order 8 × 2 squarings), a W dial (W=10→28: error 6.7e-2 → 1.7e-7,
+sound at every width), REAL saturation (Emax=−4 pins 15/16 components at ±MAX — still
+sound), and the sin tape on the same skeleton. Honest finding: in dense long chains the
+flags degrade almost entirely to "no-bound" — zero lies but thin information (the
+composition-level echo of the 0.5% dense retention rule; quantitative intervals want the
+4-value digit / interval representations as the next structure).
