@@ -120,3 +120,21 @@ sound), and the sin tape on the same skeleton. Honest finding: in dense long cha
 flags degrade almost entirely to "no-bound" — zero lies but thin information (the
 composition-level echo of the 0.5% dense retention rule; quantitative intervals want the
 4-value digit / interval representations as the next structure).
+
+### `gate_solve.py` — the solve family in gates, M/N/O and U/V/W preserved
+
+`nsolve` (equation-solving division `L_a⁺x`) lowered to the gate world on the same rails as
+the exp units: **O** = the Ben-Israel tape `X←X(2I−LX)` (K fixed, no branches, no division —
+the initial scale is an exponent shift), **V** = matrix products as `bf_bilinear_unit` ×
+`_matmul_uvw` (matmul is just another (U,V,W)), **U** = `L_a` construction (pure lincomb
+wiring) + `2^{-s}` init, **W** = the two-tier verification (exact-solve / SING least-squares
+/ SING|INEXACT) fused into the unit — "never pretend an inconsistent system was solved" at
+the gate-model level; **N** = swap `cd_omega(M)`. Two parts, same precedent as
+gate_series/bfp_series: **Part A** pure-gate EXACT mode — gate graph ≡ exact rational spec
+(Fraction equality asserted, quaternion K=2, 93.1M gates) with the measured width doubling
+[6→34→90] that makes normalization mandatory; **Part B** normalized BFP mode — W-digit
+block-float matrices, cost LINEAR in K (sedenion K=25: 204,800 integer multiplies/solve),
+final verification in exact integer arithmetic (zero-error claims about the quantized
+problem): regular solve matches pinv at 1.4e-7 (W=24), zero divisor honestly SING with
+normal-equation residual 8e-8, and a width→accuracy dial (W=12→32: 6e-4→5e-8). The scalar
+1×1 case is `newton_recip.py` — this is its matrix completion.
