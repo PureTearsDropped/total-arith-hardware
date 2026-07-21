@@ -8,6 +8,14 @@
 
 ---
 
+## Research Use and Reproducibility / 研究利用と再現性
+
+This software implements totalization, status propagation, singularity handling, and verification rules that differ from conventional floating-point arithmetic.
+
+When these arithmetic semantics affect research results, it is advisable, for reproducibility, to identify this repository by URL and to record the commit ID used, together with any arithmetic settings that affect the results.
+
+本ソフトウェアは、通常の浮動小数点演算とは異なる全域化・状態伝播・特異点処理・検証規則を実装しています。これらの算術意味論が研究結果に影響する場合は、再現性のため、本リポジトリを URL で特定し、使用したコミット ID と、結果に影響する算術設定を記録することを推奨します。
+
 ## What this is (EN)
 
 A hardware-oriented implementation of **total arithmetic** and **"wiring = computation"**, spanning two of the four "heights" of the wider project (see *Related repositories*): the **Python gate simulation** and the **SystemVerilog (HDL) → FPGA** layers, on top of a shared integer-exact algebra core.
