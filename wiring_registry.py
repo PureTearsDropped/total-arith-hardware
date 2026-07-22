@@ -25,14 +25,25 @@ def _reg_bilinear(name, U, V, W, m, n, ref, computes, R):
 def _reg_circuit(name, run, computes, demo):
     REGISTRY[name] = dict(kind='circuit', run=run, computes=computes, R=None, demo=demo)
 
-# ---- 配線 → (U,V,W): 捻れ群代数（経路 mul・符号 sig）を rank=M² 分解に ----
+# ---- 死に積の刈り込み: 出力を 変えずに「使う量だけ」の 配線へ ----
+def prune_uvw(U, V, W):
+    """U/V の 行が 全0、または W が どの出力にも 使わない 積 r を 落とす（出力不変）。
+       表に 0 が ある代数（dual ε²=0・Grassmann 等）を R=M² 展開に 通すと 死に乗算器が
+       生まれる — 実測: dual 25%・grassmann2 44% の ゲートが 無駄（±1/0 係数の 段は
+       lincomb が 配線扱いで 元から ゼロゲート・無駄は 丸ごとの 死に積だけ）。"""
+    keep = [r for r in range(len(U))
+            if any(U[r]) and any(V[r]) and any(W[k][r] for k in range(len(W)))]
+    return ([U[r] for r in keep], [V[r] for r in keep],
+            [[W[k][r] for r in keep] for k in range(len(W))])
+
+# ---- 配線 → (U,V,W): 捻れ群代数（経路 mul・符号 sig）を rank≤M² 分解に ----
 def wiring_to_uvw(mul, sig, M):
     R = M * M
     U = [[0]*M for _ in range(R)]; V = [[0]*M for _ in range(R)]; W = [[0]*R for _ in range(M)]
     for i in range(M):
         for j in range(M):
             r = i*M + j; U[r][i] = 1; V[r][j] = 1; W[mul[i][j]][r] = int(sig[i][j])
-    return U, V, W
+    return prune_uvw(U, V, W)
 
 def _omega_uvw(OM, M):                                   # 経路 = XOR
     mul = [[i ^ j for j in range(M)] for i in range(M)]
@@ -217,6 +228,11 @@ def self_test():
             vals |= set(np.unique(np.array(e[kk], dtype=float)).tolist())
         assert vals <= {-1.0, 0.0, 1.0}, f"三値正規形 破れ: {nm} 係数 {sorted(vals)}"
     print("  三値門番: bilinear 全件 (U,V,W) ⊆ {−1,0,+1} ✓（配線正規形）")
+    # 刈り込みの門番: 双対数 ε²=0 の 表 → R=4 の うち 1 本が 死に積 → 3 本・出力不変
+    Ud, Vd, Wd = wiring_to_uvw([[0, 1], [1, 0]], [[1, 1], [1, 0]], 2)
+    r = np.array(Wd) @ ((np.array(Ud) @ [2, 3]) * (np.array(Vd) @ [4, 5]))
+    assert len(Ud) == 3 and list(r) == [8, 22], "prune_uvw 破れ"
+    print("  刈り込み門番: dual(ε²=0) R 4→3・(2+3ε)(4+5ε)=8+22ε ✓（死に積の 自動除去）")
     print()
     print("  検証（algebra=(U,V,W)代数、gate=ゲート版）:")
     # gate 実装は (U,V,W) 汎用 = 全配線で 動く。検査本数だけ 時間予算で 分ける:
