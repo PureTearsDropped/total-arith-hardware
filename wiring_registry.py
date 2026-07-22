@@ -219,6 +219,8 @@ def self_test():
     print("  三値門番: bilinear 全件 (U,V,W) ⊆ {−1,0,+1} ✓（配線正規形）")
     print()
     print("  検証（algebra=(U,V,W)代数、gate=ゲート版）:")
+    # gate 実装は (U,V,W) 汎用 = 全配線で 動く。検査本数だけ 時間予算で 分ける:
+    # 小物 300本・大物(sedenion 等 R=256 は 1本≈0.7s)は 2本 — 「—」表示は 廃止。
     small_gate = {"complex","quaternion","matmul2x2","conv_cyclic4","strassen2x2",
                   "karatsuba","gauss_complex","clifford2"}
     for nm, e in REGISTRY.items():
@@ -231,14 +233,15 @@ def self_test():
             continue
         m, n = e['m'], e['n']
         bad_a = bad_g = 0
-        for _ in range(300):
+        ng = 300 if nm in small_gate else 2
+        for it in range(300):
             a = [int(v) for v in rng.integers(-9, 10, m)]
             b = [int(v) for v in rng.integers(-9, 10, n)]
             ref = e['ref'](a, b)
             if run(nm, a, b, backend='algebra') != ref: bad_a += 1
-            if nm in small_gate and [from_sd(o) for o in
+            if it < ng and [from_sd(o) for o in
                 bilinear_unit_gates(e['U'], e['V'], e['W'], a, b, 13, new_counter())] != ref: bad_g += 1
-        g = "gate✓" if (nm in small_gate and bad_g == 0) else ("gate× " if nm in small_gate else "gate—")
+        g = ("gate✓" if bad_g == 0 else "gate×") + ("" if nm in small_gate else f"({ng}本)")
         print(f"  {nm:<16} algebra {'✓' if bad_a==0 else f'×{bad_a}':<4} {g}")
     print()
     print("  ⟹ 一つのファブリック＋レジストリ。run(名前, a, b) で 配線を 選んで 実行。")
