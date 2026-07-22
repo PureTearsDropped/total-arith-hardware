@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below (see also the Research Use and Reproducibility section of the README: please record the commit ID and any arithmetic settings that affect results)."
+type: software
+title: "total-arith-hardware: total arithmetic down to logic gates and SystemVerilog"
+authors:
+  - name: "PureTearsDropped"
+license: 0BSD
+repository-code: "https://github.com/PureTearsDropped/total-arith-hardware"
+abstract: "Total arithmetic lowered to AND/OR/NOT/XOR gate graphs with automatic SystemVerilog generation (the emitted RTL is the traced gate graph of the audited Python golden), block floating point, (U,V,W) bilinear units, series evaluation, and a gate-level pseudo-inverse solver. Verified with iverilog+cocotb against the golden models."
+keywords:
+  - "total arithmetic"
+  - "FPGA"
+  - "SystemVerilog"
+  - "logic gates"
+  - "signed digit arithmetic"
+  - "hardware verification"
