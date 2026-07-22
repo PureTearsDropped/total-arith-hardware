@@ -30,7 +30,10 @@ def prune_uvw(U, V, W):
     """U/V の 行が 全0、または W が どの出力にも 使わない 積 r を 落とす（出力不変）。
        表に 0 が ある代数（dual ε²=0・Grassmann 等）を R=M² 展開に 通すと 死に乗算器が
        生まれる — 実測: dual 25%・grassmann2 44% の ゲートが 無駄（±1/0 係数の 段は
-       lincomb が 配線扱いで 元から ゼロゲート・無駄は 丸ごとの 死に積だけ）。"""
+       lincomb が 配線扱いで 元から ゼロゲート・無駄は 丸ごとの 死に積だけ）。
+       方針: 併合は しない。順序無視の 併合は 反対称部（=非可換の 住処）を 消し、
+       可換代数でも a_i b_j ≠ a_j b_i で 壊れる（2026-07-23 実測）。合法なのは
+       同側完全一致だけだが 現行の 生成経路では 発生しない — 死に積の 削除のみ。"""
     keep = [r for r in range(len(U))
             if any(U[r]) and any(V[r]) and any(W[k][r] for k in range(len(W)))]
     return ([U[r] for r in keep], [V[r] for r in keep],
