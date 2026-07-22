@@ -205,6 +205,19 @@ def self_test():
     print("="*78)
     catalog()
     print()
+    # 配線正規形の門番: bilinear の (U,V,W) は 三値 {−1,0,+1} が 契約。
+    # 三値なら 配線段は 経路+符号+加算だけ（係数の 丸めが どのバックエンドにも 無い）
+    # ＝ R が「真の乗算回数」の 正直な請求書になる。二進有理は べき2対角に 括り出し、
+    # 無理数係数は CSD 三値化+誤差票つきでのみ 入場（TBM_SPEC「配線正規形」参照）。
+    for nm, e in REGISTRY.items():
+        if e['kind'] != 'bilinear':
+            continue
+        vals = set()
+        for kk in ('U', 'V', 'W'):
+            vals |= set(np.unique(np.array(e[kk], dtype=float)).tolist())
+        assert vals <= {-1.0, 0.0, 1.0}, f"三値正規形 破れ: {nm} 係数 {sorted(vals)}"
+    print("  三値門番: bilinear 全件 (U,V,W) ⊆ {−1,0,+1} ✓（配線正規形）")
+    print()
     print("  検証（algebra=(U,V,W)代数、gate=ゲート版）:")
     small_gate = {"complex","quaternion","matmul2x2","conv_cyclic4","strassen2x2",
                   "karatsuba","gauss_complex","clifford2"}
