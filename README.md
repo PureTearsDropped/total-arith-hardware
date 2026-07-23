@@ -21,7 +21,7 @@ When these arithmetic semantics affect research results, it is advisable, for re
 A hardware-oriented implementation of **total arithmetic** and **"wiring = computation"**, spanning two of the four "heights" of the wider project (see *Related repositories*): the **Python gate simulation** and the **SystemVerilog (HDL) → FPGA** layers, on top of a shared integer-exact algebra core.
 
 - **Total arithmetic** — the unit never produces `NaN` or `Inf`, and its status flags never lie. Overflow saturates to `±MAX` (flag `GE`), underflow collapses to `±MIN = ε` while preserving direction (flag `LE`), `a/0 = 0` (for a genuine zero only), and there are two kinds of zero. Adversarial sweeps produce zero `NaN`/`Inf` and zero flag lies.
-- **Wiring = computation** — the multiplication is described by a *structure tensor* / wiring table. Swap the table and the same gate graph computes a different algebra: complex, quaternion, sedenion, matrix product, cyclic convolution. A registry of 19 patterns plus an inverse designer (ask for a matrix block → get the minimal group that contains it).
+- **Wiring = computation** — the multiplication is described by a *structure tensor* / wiring table. Swap the table and the same gate graph computes a different algebra: complex, quaternion, sedenion, matrix product, cyclic convolution. A registry of 19 patterns plus an inverse designer (ask for a matrix block → get the minimal group that contains it). **The wiring normal form is ternary** (coefficients ⊆ {−1, 0, +1} — TBM_SPEC §1.5 in total-arith-cuda): a permanent gatekeeper checks all 18 bilinear wirings, so the linear stages are exact adds/routes (no coefficient rounding anywhere), `R` honestly counts the true multiplies, and the gate check now covers **every** wiring (the generic `(U,V,W)` gate expansion was always universal; big wirings are spot-checked for time budget, none skipped). Custom tables with structural zeros (dual numbers, Grassmann) get **dead-product pruning** (`prune_uvw`, output-invariant — measured waste before: 25–44% of gates); merging is deliberately *not* done (order-blind merging annihilates the antisymmetric part — where non-commutativity lives — and breaks even commutative algebras; measured).
 - **Signed-digit block floating point** — mantissa digits are ternary `{−1, 0, +1}` (Avizienis 1961) sharing one base-2 exponent per 16-component sedenion (a signed-ternary cousin of MXFP/microscaling). Sign symmetry means **sign flip = swapping `+`/`−` digits = pure wiring** (zero gates); the sign is carried by the mantissa, so only a "sign-unknown" bit remains as separate status.
 - **From gates to HDL with no hand-transcription** — the SystemVerilog is *auto-emitted* by tracing the audited Python gate graph, so the HDL is the same gate graph by construction. Verified against the Python golden model with Icarus + cocotb.
 
@@ -43,7 +43,7 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 
 - **Pure-Python / gate self-tests** — no special hardware. Reproduced here: **all 17 green, zero violations.**
 - **HDL (virtual hardware / RTL simulation)** — requires `iverilog` (or `verilator`) + `cocotb`. `./verify_hdl.sh` runs every SystemVerilog module as *simulated hardware* (no FPGA) and checks it against the Python golden. Reproduced here with **iverilog 12.0 + cocotb 2.0.1: all 8 modules green** — `gate9` `compress3` `sd_add2` `sd_mult10` `pe24` `barrel18` `blocknorm` `sed_comp` (`TESTS=1 PASS=1 FAIL=0` each). Note: clear `rtl/tb/sim_build` between toplevels (`verify_hdl.sh` does this) — a stale build silently reuses the previous module.
-- **FPGA** — requires Vivado. `cd rtl/fpga && vivado -mode batch -source build.tcl` targets an Arty A7-100T (UART ⇔ `sd_add2`). Simulated at the same protocol as the board; synthesis is left to the user.
+- **FPGA** — a **prebuilt bitstream is included** (`rtl/fpga/top_arty.bit`, Arty A7-100T, UART ⇔ `sd_add2`), built with the fully **open-source flow** (yosys + nextpnr-xilinx + prjxray — no Vivado needed); see `rtl/fpga/BRINGUP.md` for the flash-and-test procedure (`host_test.py` runs 1000 vectors against the Python golden). A Vivado `build.tcl` is also provided for those who prefer it.
 
 ### Design contract (see `GATE_CONDITIONS.md`)
 
@@ -62,13 +62,13 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 **全域算術**と**「配線＝計算」**の、ハードウェア寄り実装。プロジェクト全体の「4つの高さ」（*Related repositories* 参照）のうち、**Pythonゲートシミュレーション**と **SystemVerilog(HDL)→FPGA** の層を、整数厳密の代数コアの上に載せてある。
 
 - **全域算術** — `NaN`/`Inf` を決して作らず、状態フラグが嘘をつかない。溢れ→`±MAX`(`GE`)、潰れ→`±MIN=ε`（向き保持・`LE`）、`a/0=0`（本物の0のときだけ）、二種類の0。敵対的スイープで `NaN`/`Inf` 生成ゼロ・フラグの嘘ゼロ。
-- **配線＝計算** — 乗算を*構造テンソル*（配線表）で記述。表を差し替えると同じゲートグラフが別の代数（複素・四元数・セデニオン・行列積・巡回畳み込み）になる。19パターンのレジストリ＋逆設計（欲しい行列ブロック→それを含む最小の群）。
+- **配線＝計算** — 乗算を*構造テンソル*（配線表）で記述。表を差し替えると同じゲートグラフが別の代数（複素・四元数・セデニオン・行列積・巡回畳み込み）になる。19パターンのレジストリ＋逆設計（欲しい行列ブロック→それを含む最小の群）。**配線正規形は三値 {−1,0,+1}**（total-arith-cuda の TBM_SPEC §1.5）——三値門番が bilinear 18/18 を恒久検査。線形段は加算と経路だけ（係数の丸めが存在しない）、`R` は真の乗算数の正直な請求書、gate 検査は全配線をカバー。表に構造的な 0 がある代数（双対数・Grassmann）は**死に積の刈り込み** `prune_uvw`（出力不変・刈る前は 25〜44% のゲートが無駄と実測）。**併合は意図的にしない**——順序無視の併合は反対称部（非可換の住処）を消し、可換代数でも壊れる（実測）。
 - **符号つき3値ブロック浮動** — 仮数の桁が3値 `{−1,0,+1}`（Avizienis 1961）で、16成分セデニオンが指数を1つ共有（MXFP/microscalingの符号つき3値版）。符号対称なので **符号反転＝`+`/`−`桁の入替＝純配線**（ゲートゼロ）。符号は仮数が運び、残る状態は「符号不明」1ビットだけ。
 - **ゲート→HDLを手写しゼロで** — SystemVerilogは監査済みPythonゲートグラフをトレースして*自動生成*。だからHDLは定義上同一のゲートグラフ。Icarus+cocotbでPython golden と照合。
 
 ### 再現方法
 
-上記 *Reproduce* のコマンド。純Python/ゲートのself-testは特別なハード不要（ここでは全緑・違反0を実測）。HDLは `iverilog`+`cocotb`、FPGAは Vivado。
+上記 *Reproduce* のコマンド。純Python/ゲートのself-testは特別なハード不要（ここでは全緑・違反0を実測）。HDLは `iverilog`+`cocotb`。FPGA は**ビルド済み bitstream 同梱**（`rtl/fpga/top_arty.bit`、完全オープンソースフロー yosys+nextpnr-xilinx+prjxray 製・Vivado 不要、手順は `rtl/fpga/BRINGUP.md`）。
 
 ### ファイル地図
 
