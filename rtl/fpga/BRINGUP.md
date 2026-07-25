@@ -1,6 +1,11 @@
 # Arty A7-100T bring-up — 実機火入れ手順 / board bring-up
 
-> Status: bitstream **already built** (`top_arty.bit`, fully open-source flow: yosys + nextpnr-xilinx + prjxray — no Vivado license needed). The UART protocol is verified in simulation (`rtl/tb/test_top_arty.py`, same protocol as `host_test.py`). What remains is plugging in a board.
+> Status: **first light achieved 2026-07-25 on a real Arty A7-100T** — flashed this prebuilt
+> `top_arty.bit` (fully open-source flow: yosys + nextpnr-xilinx + prjxray, no Vivado) via
+> openFPGALoader over usbipd-win/WSL2, then `host_test.py /dev/ttyUSB1` streamed 1000 random
+> vectors through the on-silicon `sd_add2`: **1000/1000 match with the Python golden, 63
+> frames/s**. The verification chain is closed end-to-end: Python gates → simulated RTL →
+> real silicon.
 
 ## 0. What the design does
 

@@ -43,7 +43,7 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 
 - **Pure-Python / gate self-tests** — no special hardware. Reproduced here: **all 17 green, zero violations.**
 - **HDL (virtual hardware / RTL simulation)** — requires `iverilog` (or `verilator`) + `cocotb`. `./verify_hdl.sh` runs every SystemVerilog module as *simulated hardware* (no FPGA) and checks it against the Python golden. Reproduced here with **iverilog 12.0 + cocotb 2.0.1: all 8 modules green** — `gate9` `compress3` `sd_add2` `sd_mult10` `pe24` `barrel18` `blocknorm` `sed_comp` (`TESTS=1 PASS=1 FAIL=0` each). Note: clear `rtl/tb/sim_build` between toplevels (`verify_hdl.sh` does this) — a stale build silently reuses the previous module.
-- **FPGA** — a **prebuilt bitstream is included** (`rtl/fpga/top_arty.bit`, Arty A7-100T, UART ⇔ `sd_add2`), built with the fully **open-source flow** (yosys + nextpnr-xilinx + prjxray — no Vivado needed); see `rtl/fpga/BRINGUP.md` for the flash-and-test procedure (`host_test.py` runs 1000 vectors against the Python golden). A Vivado `build.tcl` is also provided for those who prefer it.
+- **FPGA — verified on real silicon (2026-07-25)**: the included prebuilt bitstream (`rtl/fpga/top_arty.bit`, Arty A7-100T, UART ⇔ `sd_add2`, fully **open-source flow**: yosys + nextpnr-xilinx + prjxray — no Vivado) was flashed to a physical board and `host_test.py` streamed 1000 random vectors through the on-silicon signed-digit adder: **1000/1000 match with the Python golden (63 frames/s)** — the chain Python gates → simulated RTL → real silicon is closed end-to-end. See `rtl/fpga/BRINGUP.md`. A Vivado `build.tcl` is also provided for those who prefer it.
 
 ### Design contract (see `GATE_CONDITIONS.md`)
 
