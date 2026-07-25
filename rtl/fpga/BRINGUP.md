@@ -15,6 +15,25 @@
 > tool-estimated. One contract lesson surfaced: `sd_add2` requires **canonical digits** —
 > feeding redundant zeros `(1,1)` breaks it (design contract R1, confirmed on silicon).
 > Harness prototype: `research-workspace/fpga_bench/`.
+>
+> **Unit datasheet (same day, place-and-route on xc7a100t, single-cycle combinational):**
+>
+> | unit | LUT | comb. delay | single-cycle Fmax |
+> |---|---|---|---|
+> | `sd_add2` (N=16, in bench) | ~350 | ~4 ns | (bench whole: 139 MHz) |
+> | `pe24` priority encoder | 43 | 4.8 ns | 208 MHz |
+> | `barrel18` shifter | 131 | 5.9 ns | 168 MHz |
+> | `sd_mult10` | 936 | 12.2 ns | 82 MHz |
+> | `blocknorm` | 1,808 | 24.3 ns | 41 MHz |
+> | `sed_comp` (1 of 16 sedenion components) | 5,127 | 20.1 ns | 50 MHz |
+>
+> Readings: one LUT6 absorbs ≈9.4 traced gates (sed_comp: 48,222 gates → 5,127 LUT); a
+> **full 16-component sedenion multiplier ≈ 82k LUT ≈ 65% of this chip — it fits**; and the
+> slowest stage is **NORM (blocknorm), not the multiplies** — the TBM discipline "rounding
+> lives only in NORM" turns out to be where *time* lives too (pipeline it: its parts pe24 +
+> barrel18 are each ~5 ns). Measured with an auto-generated characterization wrapper
+> (`research-workspace/fpga_bench/characterize.py` — shift-register inputs, XOR-folded
+> outputs, so synthesis cannot prune the logic).
 
 ## 0. What the design does
 
