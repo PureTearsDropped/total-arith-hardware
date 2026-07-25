@@ -6,6 +6,15 @@
 > vectors through the on-silicon `sd_add2`: **1000/1000 match with the Python golden, 63
 > frames/s**. The verification chain is closed end-to-end: Python gates → simulated RTL →
 > real silicon.
+>
+> **On-chip benchmark (same day):** a fabric-side harness (LFSR → `sd_add2` →
+> an *independent* binary carry-propagate checker → counters; UART carries only the
+> 13-byte summary) measured **100.0 M adds/s at 100 MHz (0.9999999 adds/cycle), 10,000,000
+> vectors, 0 mismatches**, LFSR final state bit-matching the host replica. 823 LUT / 469 FF
+> total (0.6% of the chip), Fmax 139 MHz. Throughput/latency are now *measured*, not
+> tool-estimated. One contract lesson surfaced: `sd_add2` requires **canonical digits** —
+> feeding redundant zeros `(1,1)` breaks it (design contract R1, confirmed on silicon).
+> Harness prototype: `research-workspace/fpga_bench/`.
 
 ## 0. What the design does
 
