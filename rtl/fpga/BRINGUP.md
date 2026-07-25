@@ -42,6 +42,16 @@
 > cycle-identical**. The cost of per-operation verification, which is a **1.4–2.9× time tax
 > on the GPU**, is here **0 cycles and +226 LUT (+37% area)**: on hardware, honesty is
 > wiring, not time — measured, not asserted.
+>
+> **Even the Fmax ceiling penalty is removable.** With the verifier in the same pipeline
+> stage as the adder, the *ceiling* pays 17% (bare 165 MHz vs verified 141 MHz). But
+> verification is *observation, not dependency* — results never wait for the check, so the
+> verifier can be pipelined off the critical path arbitrarily deep. One retiming stage
+> later: bare 150 MHz vs verified **159 MHz** (parity within P&R noise; the penalty is
+> gone), silicon re-measured: 10,000,002 cycles / 10M vectors = 100.0 M adds/s, 0
+> mismatches. The only honesty logic that must stay in-path is what *changes the value*
+> (saturation/clamp — one compare+mux); everything that merely raises flags can always be
+> moved off-path.
 
 ## 0. What the design does
 
