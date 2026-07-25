@@ -34,6 +34,14 @@
 > barrel18 are each ~5 ns). Measured with an auto-generated characterization wrapper
 > (`research-workspace/fpga_bench/characterize.py` — shift-register inputs, XOR-folded
 > outputs, so synthesis cannot prune the logic).
+>
+> **Honesty-tax A/B under equal conditions (same day):** two bitstreams differing ONLY in
+> whether a full independent verifier runs alongside every add (CHECK=0 bare: 604 LUT,
+> Fmax 165 MHz / CHECK=1 verified: 830 LUT, Fmax 141 MHz — both ≫ 100 MHz). On silicon,
+> both complete 10,000,000 vectors in **exactly 10,000,001 cycles — 100.0 M adds/s,
+> cycle-identical**. The cost of per-operation verification, which is a **1.4–2.9× time tax
+> on the GPU**, is here **0 cycles and +226 LUT (+37% area)**: on hardware, honesty is
+> wiring, not time — measured, not asserted.
 
 ## 0. What the design does
 
