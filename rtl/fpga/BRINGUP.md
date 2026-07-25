@@ -7,51 +7,10 @@
 > frames/s**. The verification chain is closed end-to-end: Python gates → simulated RTL →
 > real silicon.
 >
-> **On-chip benchmark (same day):** a fabric-side harness (LFSR → `sd_add2` →
-> an *independent* binary carry-propagate checker → counters; UART carries only the
-> 13-byte summary) measured **100.0 M adds/s at 100 MHz (0.9999999 adds/cycle), 10,000,000
-> vectors, 0 mismatches**, LFSR final state bit-matching the host replica. 823 LUT / 469 FF
-> total (0.6% of the chip), Fmax 139 MHz. Throughput/latency are now *measured*, not
-> tool-estimated. One contract lesson surfaced: `sd_add2` requires **canonical digits** —
-> feeding redundant zeros `(1,1)` breaks it (design contract R1, confirmed on silicon).
-> Harness prototype: `research-workspace/fpga_bench/`.
->
-> **Unit datasheet (same day, place-and-route on xc7a100t, single-cycle combinational):**
->
-> | unit | LUT | comb. delay | single-cycle Fmax |
-> |---|---|---|---|
-> | `sd_add2` (N=16, in bench) | ~350 | ~4 ns | (bench whole: 139 MHz) |
-> | `pe24` priority encoder | 43 | 4.8 ns | 208 MHz |
-> | `barrel18` shifter | 131 | 5.9 ns | 168 MHz |
-> | `sd_mult10` | 936 | 12.2 ns | 82 MHz |
-> | `blocknorm` | 1,808 | 24.3 ns | 41 MHz |
-> | `sed_comp` (1 of 16 sedenion components) | 5,127 | 20.1 ns | 50 MHz |
->
-> Readings: one LUT6 absorbs ≈9.4 traced gates (sed_comp: 48,222 gates → 5,127 LUT); a
-> **full 16-component sedenion multiplier ≈ 82k LUT ≈ 65% of this chip — it fits**; and the
-> slowest stage is **NORM (blocknorm), not the multiplies** — the TBM discipline "rounding
-> lives only in NORM" turns out to be where *time* lives too (pipeline it: its parts pe24 +
-> barrel18 are each ~5 ns). Measured with an auto-generated characterization wrapper
-> (`research-workspace/fpga_bench/characterize.py` — shift-register inputs, XOR-folded
-> outputs, so synthesis cannot prune the logic).
->
-> **Honesty-tax A/B under equal conditions (same day):** two bitstreams differing ONLY in
-> whether a full independent verifier runs alongside every add (CHECK=0 bare: 604 LUT,
-> Fmax 165 MHz / CHECK=1 verified: 830 LUT, Fmax 141 MHz — both ≫ 100 MHz). On silicon,
-> both complete 10,000,000 vectors in **exactly 10,000,001 cycles — 100.0 M adds/s,
-> cycle-identical**. The cost of per-operation verification, which is a **1.4–2.9× time tax
-> on the GPU**, is here **0 cycles and +226 LUT (+37% area)**: on hardware, honesty is
-> wiring, not time — measured, not asserted.
->
-> **Even the Fmax ceiling penalty is removable.** With the verifier in the same pipeline
-> stage as the adder, the *ceiling* pays 17% (bare 165 MHz vs verified 141 MHz). But
-> verification is *observation, not dependency* — results never wait for the check, so the
-> verifier can be pipelined off the critical path arbitrarily deep. One retiming stage
-> later: bare 150 MHz vs verified **159 MHz** (parity within P&R noise; the penalty is
-> gone), silicon re-measured: 10,000,002 cycles / 10M vectors = 100.0 M adds/s, 0
-> mismatches. The only honesty logic that must stay in-path is what *changes the value*
-> (saturation/clamp — one compare+mux); everything that merely raises flags can always be
-> moved off-path.
+> **Follow-up experiments (same day)** — on-chip throughput (100.0 M adds/s measured),
+> the honesty-tax A/B (verification = 0 cycles, area only), Fmax-penalty removal by
+> retiming, and the per-unit datasheet — live in **`experiments/arty_bench/`** with
+> sources, prebuilt bitstreams, raw logs, and the write-up.
 
 ## 0. What the design does
 

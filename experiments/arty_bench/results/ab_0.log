@@ -1,0 +1,1271 @@
+Info: Packing constants..
+Info: Inserting IO buffers..
+Info:     IO port 'CLK100MHZ' driven by IBUF '$iopadmap$top_bench.CLK100MHZ'
+Info:     IO port 'uart_rxd_out' driven by OBUF '$iopadmap$top_bench.uart_rxd_out'
+Info:     IO port 'uart_txd_in' driven by IBUF '$iopadmap$top_bench.uart_txd_in'
+Info:     IO port 'led[0]' driven by OBUF '$iopadmap$top_bench.led'
+Info:     IO port 'led[1]' driven by OBUF '$iopadmap$top_bench.led_1'
+Info:     IO port 'led[2]' driven by OBUF '$iopadmap$top_bench.led_2'
+Info:     IO port 'led[3]' driven by OBUF '$iopadmap$top_bench.led_3'
+Info:     Constraining 'CLK100MHZ' to site 'IOB_X1Y126'
+Info:     Tile 'RIOB33_X57Y125'
+Info:     Constraining 'uart_rxd_out' to site 'IOB_X0Y161'
+Info:     Tile 'LIOB33_X0Y161'
+Info:     Constraining 'uart_txd_in' to site 'IOB_X0Y171'
+Info:     Tile 'LIOB33_X0Y171'
+Info:     Constraining 'led[0]' to site 'IOB_X1Y101'
+Info:     Tile 'RIOB33_X57Y101'
+Info:     Constraining 'led[1]' to site 'IOB_X1Y100'
+Info:     Tile 'RIOB33_SING_X57Y100'
+Info:     Constraining 'led[2]' to site 'IOB_X0Y52'
+Info:     Tile 'LIOB33_X0Y51'
+Info:     Constraining 'led[3]' to site 'IOB_X0Y51'
+Info:     Tile 'LIOB33_X0Y51'
+Info: Generating input buffer for '$iopadmap$top_bench.CLK100MHZ'
+Info: Generating output buffer for '$iopadmap$top_bench.uart_rxd_out'
+Info: Generating input buffer for '$iopadmap$top_bench.uart_txd_in'
+Info: Generating output buffer for '$iopadmap$top_bench.led'
+Info: Generating output buffer for '$iopadmap$top_bench.led_1'
+Info: Generating output buffer for '$iopadmap$top_bench.led_2'
+Info: Generating output buffer for '$iopadmap$top_bench.led_3'
+Info:     Created 7 PAD cells from:
+Info:              7x PAD
+Info: Preparing clocking...
+Info: Packing constants..
+Info: Packing cfg...
+Info: Packing PLLs...
+Info: Packing Gigabit Transceivers..
+Info: Packing global buffers...
+Info:     Constrained BUFGCTRL '$auto$clkbufmap.cc:261:execute$13291' to bel 'BUFGCTRL_X0Y16/BUFGCTRL' based on dedicated routing
+Info: Packing MUX[789]s..
+Info: Packing carries..
+Info:    Grouped 172 MUXCYs and 172 XORCYs into 11 chains.
+Info:    Blasted 0 non-chain MUXCYs and 0 non-chain XORCYs to soft logic
+Info: Packing LUTs..
+Info:     Created 606 SLICE_LUTX cells from:
+Info:            349x LUT1
+Info:            135x LUT2
+Info:             15x LUT3
+Info:             26x LUT4
+Info:             53x LUT5
+Info:             28x LUT6
+Info: Packing DRAM..
+Info:    Transformed 0 tied-low DRAM address inputs to be tied-high
+Info: Packing BRAM..
+Info: Packing DSPs..
+Info: Packing flipflops..
+Info:     Created 370 SLICE_FFX cells from:
+Info:            330x FDRE
+Info:             40x FDSE
+Info: Constrained 125 LUTFF pairs.
+
+Info: Annotating ports with timing budgets for target frequency 12.00 MHz
+Info: Checksum: 0x75e580bc
+
+Info: Device utilisation:
+Info: 	          SLICE_LUTX:   606/126800     0%
+Info: 	           SLICE_FFX:   370/126800     0%
+Info: 	              CARRY4:    44/15850     0%
+Info: 	          PSEUDO_GND:     1/30932     0%
+Info: 	          PSEUDO_VCC:     1/30932     0%
+Info: 	               HARD0:     0/ 2376     0%
+Info: 	            RAMB18E1:     0/  270     0%
+Info: 	            FIFO18E1:     0/  135     0%
+Info: 	        RAMBFIFO36E1:     0/  135     0%
+Info: 	            RAMB36E1:     0/  135     0%
+Info: 	             DSP48E1:     0/  240     0%
+Info: 	                 PAD:     7/  630     1%
+Info: 	       IOB33M_OUTBUF:     0/  144     0%
+Info: 	       IOB33S_OUTBUF:     0/  144     0%
+Info: 	        IOB33_OUTBUF:     5/  300     1%
+Info: 	     IOB33M_INBUF_EN:     0/  144     0%
+Info: 	     IOB33S_INBUF_EN:     0/  144     0%
+Info: 	      IOB33_INBUF_EN:     2/  300     0%
+Info: 	IOB33M_TERM_OVERRIDE:     0/  144     0%
+Info: 	IOB33S_TERM_OVERRIDE:     0/  144     0%
+Info: 	 IOB33_TERM_OVERRIDE:     0/  300     0%
+Info: 	       PULL_OR_KEEP1:     0/  588     0%
+Info: 	            IDELAYE2:     0/  300     0%
+Info: 	        OLOGICE3_TFF:     0/  300     0%
+Info: 	      OLOGICE3_OUTFF:     0/  300     0%
+Info: 	       OLOGICE3_MISR:     0/  300     0%
+Info: 	           OSERDESE2:     0/  300     0%
+Info: 	        ILOGICE3_IFF:     0/  300     0%
+Info: 	ILOGICE3_ZHOLD_DELAY:     0/  300     0%
+Info: 	           ISERDESE2:     0/  300     0%
+Info: 	                BUFR:     0/   24     0%
+Info: 	               BUFIO:     0/   24     0%
+Info: 	          IDELAYCTRL:     0/    6     0%
+Info: 	            BUFGCTRL:     1/   32     3%
+Info: 	            PCIE_2_1:     0/    1     0%
+Info: 	               BSCAN:     0/    4     0%
+Info: 	                BUFG:     0/   32     0%
+Info: 	              BUFHCE:     0/   96     0%
+Info: 	            DCIRESET:     0/    1     0%
+Info: 	            DNA_PORT:     0/    1     0%
+Info: 	           EFUSE_USR:     0/    1     0%
+Info: 	           FRAME_ECC:     0/    1     0%
+Info: 	       GTPE2_CHANNEL:     0/    8     0%
+Info: 	        GTPE2_COMMON:     0/    2     0%
+Info: 	         IBUFDS_GTE2:     0/    4     0%
+Info: 	                ICAP:     0/    2     0%
+Info: 	            INVERTER:     0/  144     0%
+Info: 	          MMCME2_ADV:     0/    6     0%
+Info: 	        OLOGICE2_TFF:     0/  300     0%
+Info: 	      OLOGICE2_OUTFF:     0/  300     0%
+Info: 	           PLLE2_ADV:     0/    6     0%
+Info: 	           SELMUX2_1:     0/48750     0%
+Info: 	             STARTUP:     0/    1     0%
+Info: 	          USR_ACCESS:     0/    1     0%
+Info: 	              BUFFER:     0/   42     0%
+Info: 	        ILOGICE2_IFF:     0/  300     0%
+Info: 	       OLOGICE2_MISR:     0/  300     0%
+
+Info: Placed 15 cells based on constraints.
+Info: Creating initial analytic placement for 517 cells, random placement wirelen = 151336.
+Info:     at initial placer iter 0, wirelen = 2495
+Info:     at initial placer iter 1, wirelen = 2462
+Info:     at initial placer iter 2, wirelen = 2360
+Info:     at initial placer iter 3, wirelen = 2542
+Info: Running main analytical placer.
+Info:     at iteration #1, type ALL: wirelen solved = 2434, spread = 11875, legal = 13398; time = 0.01s
+Info:     at iteration #2, type ALL: wirelen solved = 2647, spread = 8008, legal = 8219; time = 0.01s
+Info:     at iteration #3, type ALL: wirelen solved = 3009, spread = 7924, legal = 8733; time = 0.01s
+Info:     at iteration #4, type ALL: wirelen solved = 3265, spread = 6760, legal = 6667; time = 0.01s
+Info:     at iteration #5, type ALL: wirelen solved = 3572, spread = 8572, legal = 8372; time = 0.01s
+Info:     at iteration #6, type ALL: wirelen solved = 3587, spread = 8283, legal = 8255; time = 0.01s
+Info:     at iteration #7, type ALL: wirelen solved = 4070, spread = 7479, legal = 7722; time = 0.01s
+Info:     at iteration #8, type ALL: wirelen solved = 4058, spread = 6744, legal = 6744; time = 0.01s
+Info:     at iteration #9, type ALL: wirelen solved = 4068, spread = 7378, legal = 7284; time = 0.01s
+Info: HeAP Placer Time: 0.13s
+Info:   of which solving equations: 0.05s
+Info:   of which spreading cells: 0.02s
+Info:   of which strict legalisation: 0.01s
+
+Info: Running simulated annealing placer for refinement.
+Info:   at iteration #1: temp = 0.000000, timing cost = 44, wirelen = 6667
+Info:   at iteration #5: temp = 0.000000, timing cost = 33, wirelen = 5491
+Info:   at iteration #10: temp = 0.000000, timing cost = 34, wirelen = 5265
+Info:   at iteration #15: temp = 0.000000, timing cost = 32, wirelen = 5150
+Info:   at iteration #19: temp = 0.000000, timing cost = 32, wirelen = 5108 
+Info: SA placement time 0.12s
+
+Info: Max frequency for clock 'clk': 111.36 MHz (PASS at 12.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 2 endpoint(s)
+Info:          + represents [1,2) endpoint(s)
+Info: [ 74353,  74786) |*********+
+Info: [ 74786,  75219) |**+
+Info: [ 75219,  75652) |+
+Info: [ 75652,  76085) |**+
+Info: [ 76085,  76518) |*+
+Info: [ 76518,  76951) |*+
+Info: [ 76951,  77384) |****+
+Info: [ 77384,  77817) |*****************+
+Info: [ 77817,  78250) |**********************+
+Info: [ 78250,  78683) |******+
+Info: [ 78683,  79116) |************ 
+Info: [ 79116,  79549) |*********+
+Info: [ 79549,  79982) |*****+
+Info: [ 79982,  80415) |***********************************************+
+Info: [ 80415,  80848) |************************************************************ 
+Info: [ 80848,  81281) |*******************+
+Info: [ 81281,  81714) |*******+
+Info: [ 81714,  82147) |****************************+
+Info: [ 82147,  82580) |****************************+
+Info: [ 82580,  83013) |**************+
+Info: Checksum: 0x5836bd2b
+Info: Running post-placement legalisation...
+Info: Routing global clocks...
+Info:     routing clock 'clk'
+Info: Running router2...
+Info: Setting up routing resources...
+Info: Running main router loop...
+Info:     iter=1 wires=12641 overused=423 overuse=433 archfail=NA
+Info:     iter=2 wires=12956 overused=7 overuse=7 archfail=NA
+Info:     iter=3 wires=12956 overused=0 overuse=0 archfail=0
+Info: 1000 slowest nets by runtime:
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2618     96 37.3ms
+                                              $abc$12907$auto$rtlil.cc:3575:AndGate$6446    128 32.9ms
+                                                                                 running     40 21.1ms
+                                                                                     rst     49 20.3ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[0]     36 16.4ms
+                              $techmap13161$auto$abc9_ops.cc:1552:reintegrate$12909.A[2]     65 15.6ms
+                                                                                u_tx.txd      1 15.3ms
+                                                                                beat[26]      2 10.6ms
+                                                                                    done      5 9.3ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2543      9 9.1ms
+                                                                                  idx[1]     18 7.6ms
+                                                                                  idx[0]     19 7.1ms
+                                                                                 tx_busy     23 6.3ms
+                                                                         $PACKER_GND_NET    347 6.1ms
+                                              $abc$12907$auto$rtlil.cc:3574:NotGate$6428      5 5.5ms
+                              $techmap13149$auto$abc9_ops.cc:1552:reintegrate$12916.A[2]      9 5.3ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2626     32 4.6ms
+                                                                                  idx[2]     12 4.4ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2608     32 3.4ms
+                                                                                  idx[3]     10 3.3ms
+                                                                         $PACKER_VCC_NET    300 2.9ms
+                                                                            u_core.s[11]      4 2.7ms
+                              $techmap13151$auto$abc9_ops.cc:1552:reintegrate$12915.A[4]      9 2.4ms
+                              $techmap13016$auto$abc9_ops.cc:1552:reintegrate$12977.A[3]      9 2.4ms
+                                                                            u_core.s[28]      3 2.4ms
+                        $techmap13188$abc$12907$lut$auto$rtlil.cc:3574:NotGate$6428.A[1]      5 2.3ms
+                                                                            u_core.s[24]      3 2.3ms
+                                                                            u_core.s[27]      3 2.3ms
+                                                                                tx_start     12 2.3ms
+                                                                            u_core.s[18]      3 2.3ms
+                                                                              cycles[23]      2 2.3ms
+                                                                             u_core.s[5]      3 2.2ms
+                                                                              u_rx.sh[4]      2 2.2ms
+                                                                              rx_data[1]      1 2.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[23]      1 2.2ms
+                       $techmap13246$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[3].A[3]      1 2.1ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[2]      3 2.1ms
+                                                                             $0\rst[0:0]      5 2.1ms
+                                                                                   st[1]      7 2.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[22]      1 2.1ms
+                                                                              lfsr_lo[8]      1 2.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[12]      1 2.0ms
+                                                                            u_core.s[30]      3 2.0ms
+                                                                              u_rx.st[0]      8 1.9ms
+           $techmap13186$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2543.A[2]      7 1.8ms
+                                                                            u_core.s[10]      4 1.8ms
+                                                                                resp[52]      1 1.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[31]      2 1.7ms
+                                                                            u_core.s[49]      5 1.7ms
+                              $techmap13000$auto$abc9_ops.cc:1552:reintegrate$12982.A[2]     10 1.7ms
+                                                                              cycles[17]      2 1.7ms
+                                                                              cycles[12]      2 1.6ms
+                                                                             u_core.s[9]      4 1.6ms
+                              $techmap13000$auto$abc9_ops.cc:1552:reintegrate$12982.A[3]      6 1.6ms
+                                 $abc$12907$auto$opt_dff.cc:234:make_patterns_logic$2581      5 1.6ms
+                                                                              lfsr_lo[4]      1 1.6ms
+                                                                             u_core.s[7]      4 1.5ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[5]      1 1.5ms
+                              $techmap13000$auto$abc9_ops.cc:1552:reintegrate$12982.A[4]      4 1.5ms
+                                                                             u_rx.cnt[7]      4 1.5ms
+                                                                             lfsr_lo[20]      1 1.5ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[1]      1 1.4ms
+                                                                            u_core.s[38]      4 1.4ms
+                                                                              u_rx.sh[2]      2 1.4ms
+                                                                             lfsr_lo[29]      1 1.4ms
+                                                                              cycles[21]      2 1.4ms
+                                                                             lfsr_lo[25]      1 1.4ms
+                                                                             u_rx.cnt[4]      4 1.4ms
+                                                                             u_rx.cnt[6]      4 1.4ms
+                                        $techmap13082$abc$12907$lut$aiger12906$1396.A[0]      2 1.4ms
+                                                                                resp[63]      1 1.4ms
+                                                                              u_rx.st[1]      7 1.4ms
+                                                                            u_core.s[25]      3 1.4ms
+                                                                            u_core.s[31]      3 1.4ms
+                                                                                u_rx.rxd      1 1.4ms
+                                                                            u_core.s[12]      4 1.4ms
+                                                                            u_core.s[26]      3 1.3ms
+                                                                             u_core.s[1]      3 1.3ms
+                                                                             u_tx.cnt[4]      3 1.3ms
+                                                                             u_rx.cnt[5]      4 1.3ms
+                                                                            u_core.s[29]      3 1.3ms
+                                                                            u_core.s[20]      3 1.3ms
+                           $techmap13183$abc$12907$lut$flatten\u_tx.$procmux$2184_Y.A[2]      3 1.3ms
+                                                                              cycles[22]      2 1.3ms
+                              $techmap13099$auto$abc9_ops.cc:1552:reintegrate$12947.A[0]      2 1.3ms
+                                                                             u_core.s[0]      3 1.3ms
+                                                                            u_core.s[39]      4 1.3ms
+                                                                             u_core.s[2]      3 1.3ms
+                              $techmap13141$auto$abc9_ops.cc:1552:reintegrate$12919.A[3]      7 1.3ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[5]      3 1.3ms
+                                                                            u_core.s[46]      3 1.3ms
+                                                                               cycles[4]      2 1.2ms
+                                                                             lfsr_lo[12]      1 1.2ms
+                                        $techmap13102$abc$12907$lut$aiger12906$1450.A[0]      3 1.2ms
+                              $techmap13016$auto$abc9_ops.cc:1552:reintegrate$12977.A[2]      7 1.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[17]      2 1.2ms
+                                                                       u_core.issued[24]      3 1.2ms
+                                                                             u_core.s[6]      3 1.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[21]      2 1.2ms
+                                                                        u_core.issued[0]      2 1.2ms
+           $techmap13150$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2591.A[0]      2 1.2ms
+                                                                              cycles[14]      2 1.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[25]      1 1.2ms
+                                                                               cycles[0]      2 1.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2897.Y[2]      1 1.1ms
+                                        $techmap13027$abc$12907$lut$aiger12906$1164.A[0]      2 1.1ms
+                              $techmap13022$auto$abc9_ops.cc:1552:reintegrate$12974.A[2]      7 1.1ms
+                                                                            u_core.s[15]      3 1.1ms
+                                                                              cycles[18]      2 1.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2918.Y[3]      1 1.1ms
+                                        $techmap13027$abc$12907$lut$aiger12906$1164.A[1]      2 1.1ms
+                                                                            u_core.s[48]      5 1.1ms
+                                                                              u_rx.sh[6]      2 1.1ms
+                                                                                 u_rx.rx      7 1.1ms
+                              $techmap13095$auto$abc9_ops.cc:1552:reintegrate$12948.A[1]      2 1.1ms
+                              $techmap13075$auto$abc9_ops.cc:1552:reintegrate$12957.A[1]      2 1.1ms
+                                                                              cycles[31]      2 1.1ms
+                                                                              cycles[29]      2 1.1ms
+                                                                             u_core.s[8]      4 1.1ms
+                        $techmap13224$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[9].A[0]      1 1.1ms
+                                                                            u_core.s[21]      3 1.1ms
+                                                                              cycles[26]      2 1.1ms
+                              $techmap13145$auto$abc9_ops.cc:1552:reintegrate$12917.A[4]      1 1.1ms
+                                                                            u_core.s[19]      3 1.1ms
+                                                                            u_core.s[17]      3 1.1ms
+                                                                              tx_data[7]      1 1.1ms
+                                              $abc$12907$auto$rtlil.cc:3575:AndGate$6424      1 1.1ms
+         $techmap13061$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[9].A[1]      2 1.1ms
+                                                                               cycles[1]      2 1.1ms
+                                        $techmap13020$abc$12907$lut$aiger12906$1111.A[0]      2 1.1ms
+                                                                       u_core.issued[25]      3 1.0ms
+                              $techmap13083$auto$abc9_ops.cc:1552:reintegrate$12954.A[0]      2 1.0ms
+                                                                            u_core.s[13]      3 1.0ms
+                                                                            u_core.s[47]      5 1.0ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[30]      1 1.0ms
+                                        $techmap13034$abc$12907$lut$aiger12906$1212.A[1]      2 1.0ms
+                                                                              lfsr_lo[0]      1 1.0ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[17]      1 1.0ms
+                                         $techmap13182$abc$12907$lut$aiger12906$863.A[0]      2 1.0ms
+                              $techmap13035$auto$abc9_ops.cc:1552:reintegrate$12968.A[1]      2 1.0ms
+                                         $techmap13195$abc$12907$lut$aiger12906$828.A[5]      1 1.0ms
+                                        $techmap13114$abc$12907$lut$aiger12906$1486.A[0]      3 1.0ms
+                              $techmap13070$auto$abc9_ops.cc:1552:reintegrate$12958.A[1]      2 1.0ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[18]      1 1.0ms
+                                        $techmap13086$abc$12907$lut$aiger12906$1405.A[0]      2 1.0ms
+                                                                            u_core.s[16]      3 1.0ms
+                              $techmap13109$auto$abc9_ops.cc:1552:reintegrate$12944.A[0]      2 1.0ms
+                                                                              cycles[19]      2 1.0ms
+                                                                             u_core.s[3]      3 1.0ms
+                                  $techmap2663$flatten\u_core.$lt$top_bench.sv:49$1774.Y      2 1.0ms
+                                                                            u_core.s[22]      3 1.0ms
+                                                                              u_rx.sh[3]      2 0.9ms
+                                                                            u_core.s[36]      4 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[23]      1 0.9ms
+                                                                               cycles[2]      2 0.9ms
+                                                                            u_core.s[42]      3 0.9ms
+                                              $auto$alumacc.cc:512:replace_alu$2897.Y[1]      1 0.9ms
+                              $techmap13028$auto$abc9_ops.cc:1552:reintegrate$12971.A[1]      2 0.9ms
+                                                                             u_rx.cnt[1]      3 0.9ms
+                                        $techmap13108$abc$12907$lut$aiger12906$1468.A[0]      3 0.9ms
+                              $techmap13052$auto$abc9_ops.cc:1552:reintegrate$12963.A[1]      1 0.9ms
+                              $techmap13013$auto$abc9_ops.cc:1552:reintegrate$12978.A[1]      2 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[11]      1 0.9ms
+                                                                             u_rx.cnt[9]      4 0.9ms
+                                              $auto$alumacc.cc:512:replace_alu$2918.Y[1]      1 0.9ms
+                                                                              lfsr_lo[9]      1 0.9ms
+                                                                              cycles[28]      2 0.9ms
+                                                                             u_core.s[4]      3 0.9ms
+                                                                                resp[48]      1 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[19]      1 0.9ms
+                                                                                resp[85]      1 0.9ms
+                                                                              u_rx.sh[7]      2 0.9ms
+                                                                               cycles[6]      2 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[23]      2 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[29]      2 0.9ms
+                                        $techmap13111$abc$12907$lut$aiger12906$1477.A[0]      3 0.9ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[28]      1 0.9ms
+                                                                             u_rx.cnt[0]      4 0.9ms
+                                                                            u_core.s[35]      4 0.9ms
+                                              $auto$alumacc.cc:512:replace_alu$2897.Y[3]      1 0.9ms
+                       $techmap13242$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[4].A[4]      1 0.9ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[3]      1 0.9ms
+                                                                               cycles[5]      2 0.8ms
+                                                                             u_tx.cnt[3]      3 0.8ms
+                              $techmap13079$auto$abc9_ops.cc:1552:reintegrate$12956.A[0]      2 0.8ms
+                              $techmap13064$auto$abc9_ops.cc:1552:reintegrate$12960.A[1]      2 0.8ms
+                              $techmap13030$auto$abc9_ops.cc:1552:reintegrate$12970.A[4]      2 0.8ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[26]      1 0.8ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[0]      2 0.8ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[28]      1 0.8ms
+                                                                                resp[64]      1 0.8ms
+                                                                             lfsr_lo[14]      1 0.8ms
+                                                                              cycles[13]      2 0.8ms
+                                                                              cycles[25]      2 0.8ms
+                        $techmap13225$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[8].A[0]      1 0.8ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[2]      1 0.8ms
+                                                                             u_rx.cnt[8]      4 0.8ms
+                                                                              tx_data[0]      1 0.8ms
+                                                                            u_core.s[45]      3 0.8ms
+                                                                               cycles[9]      2 0.8ms
+                                                                              lfsr_lo[3]      1 0.8ms
+                              $techmap13024$auto$abc9_ops.cc:1552:reintegrate$12972.A[1]      1 0.8ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[8]      1 0.8ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2512      3 0.8ms
+                                                                              u_rx.sh[1]      2 0.8ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[6]      1 0.8ms
+                                                                        u_core.issued[3]      2 0.8ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[0]      2 0.8ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[10]      1 0.8ms
+                                                                                rx_valid      1 0.8ms
+                                                                            u_core.s[34]      4 0.8ms
+                              $techmap13103$auto$abc9_ops.cc:1552:reintegrate$12946.A[0]      2 0.8ms
+                                                                             lfsr_lo[28]      1 0.7ms
+                                                                            u_core.s[52]      3 0.7ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[4]      1 0.7ms
+                                                                                   start      4 0.7ms
+                              $techmap13035$auto$abc9_ops.cc:1552:reintegrate$12968.A[0]      2 0.7ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[7]      1 0.7ms
+                                                                            u_core.s[51]      3 0.7ms
+                                                                            u_core.s[44]      3 0.7ms
+                              $techmap13091$auto$abc9_ops.cc:1552:reintegrate$12950.A[0]      2 0.7ms
+                                         $techmap13199$abc$12907$lut$aiger12906$819.A[5]      1 0.7ms
+                                         $techmap12999$abc$12907$lut$aiger12906$768.A[1]      4 0.7ms
+                              $techmap13141$auto$abc9_ops.cc:1552:reintegrate$12919.A[4]      4 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[28]      2 0.7ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[3]      3 0.7ms
+                                                                            u_core.s[23]      3 0.7ms
+                                        $techmap13105$abc$12907$lut$aiger12906$1459.A[0]      3 0.7ms
+                                                                             lfsr_lo[17]      1 0.7ms
+                              $techmap13149$auto$abc9_ops.cc:1552:reintegrate$12916.A[4]      3 0.7ms
+                                                                             u_rx.cnt[2]      3 0.7ms
+                                                                            u_core.s[58]      2 0.7ms
+                                                                                resp[51]      1 0.7ms
+                              $techmap13095$auto$abc9_ops.cc:1552:reintegrate$12948.A[0]      2 0.7ms
+                                                                               cycles[7]      2 0.7ms
+                              $techmap13087$auto$abc9_ops.cc:1552:reintegrate$12952.A[1]      2 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[19]      1 0.7ms
+                                                                              cycles[10]      2 0.7ms
+                                                                              tx_data[2]      1 0.7ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[9]      1 0.7ms
+                                                                              u_tx.sh[0]      1 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[20]      1 0.7ms
+                                                                              cycles[30]      2 0.7ms
+                                                                             u_rx.cnt[3]      3 0.7ms
+                              $techmap13087$auto$abc9_ops.cc:1552:reintegrate$12952.A[0]      2 0.7ms
+                                                                             lfsr_lo[31]      1 0.7ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[1]      3 0.7ms
+                              $techmap13008$auto$abc9_ops.cc:1552:reintegrate$12979.A[3]      1 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[13]      1 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[25]      1 0.7ms
+                              $techmap13051$auto$abc9_ops.cc:1552:reintegrate$12964.A[1]      2 0.7ms
+                                        $techmap13094$abc$12907$lut$aiger12906$1429.A[0]      3 0.7ms
+                                                                             lfsr_lo[30]      1 0.7ms
+                        $techmap13233$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[5].A[0]      1 0.7ms
+                                                                                resp[55]      1 0.7ms
+                              $techmap13016$auto$abc9_ops.cc:1552:reintegrate$12977.A[1]      3 0.7ms
+                              $techmap13115$auto$abc9_ops.cc:1552:reintegrate$12942.A[0]      2 0.7ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[25]      1 0.7ms
+                              $techmap13103$auto$abc9_ops.cc:1552:reintegrate$12946.A[1]      2 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[22]      2 0.6ms
+                                                                              cycles[20]      2 0.6ms
+                                                                             u_tx.cnt[9]      3 0.6ms
+                                        $techmap13069$abc$12907$lut$aiger12906$1357.A[0]      2 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[16]      2 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[26]      2 0.6ms
+                              $techmap13064$auto$abc9_ops.cc:1552:reintegrate$12960.A[0]      2 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[18]      2 0.6ms
+                                                                             u_tx.cnt[8]      3 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[12]      2 0.6ms
+                                                                                   st[2]      4 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[24]      1 0.6ms
+                                                                             lfsr_lo[10]      1 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[22]      1 0.6ms
+                                                                            u_core.s[37]      4 0.6ms
+                                                                                resp[62]      1 0.6ms
+                       $techmap13246$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[3].A[4]      1 0.6ms
+                                                                              u_rx.sh[5]      2 0.6ms
+                              $techmap13075$auto$abc9_ops.cc:1552:reintegrate$12957.A[0]      2 0.6ms
+                                                                               rstcnt[1]      1 0.6ms
+                                                                              u_rx.st[2]      6 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[10]      1 0.6ms
+                                      $abc$12907$auto$opt_dff.cc:275:combine_resets$2527      1 0.6ms
+                                                                              u_tx.sh[7]      1 0.6ms
+                                                                            u_core.s[55]      2 0.6ms
+                                                                            u_core.s[14]      3 0.6ms
+                                                               $abc$12907$aiger12906$788      1 0.6ms
+                              $techmap13051$auto$abc9_ops.cc:1552:reintegrate$12964.A[0]      2 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[27]      1 0.6ms
+                                        $techmap13012$abc$12907$lut$aiger12906$1054.A[1]      2 0.6ms
+                              $techmap13099$auto$abc9_ops.cc:1552:reintegrate$12947.A[1]      2 0.6ms
+                                                                             u_tx.cnt[6]      3 0.6ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[27]      2 0.6ms
+                                                                        u_core.issued[5]      2 0.5ms
+                              $techmap13008$auto$abc9_ops.cc:1552:reintegrate$12979.A[4]      1 0.5ms
+                                                                             lfsr_lo[19]      1 0.5ms
+                                                                             u_tx.cnt[1]      2 0.5ms
+                              $techmap13159$auto$abc9_ops.cc:1552:reintegrate$12910.A[3]      3 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[19]      2 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[14]      1 0.5ms
+                                                                             lfsr_lo[27]      1 0.5ms
+                                                                              cycles[24]      2 0.5ms
+                              $techmap13053$auto$abc9_ops.cc:1552:reintegrate$12962.A[1]      1 0.5ms
+                                                                        u_core.issued[1]      2 0.5ms
+                                                                             u_tx.cnt[7]      3 0.5ms
+                                                                              cycles[27]      2 0.5ms
+                                         $techmap13140$abc$12907$lut$aiger12906$885.A[2]      3 0.5ms
+                                                                              cycles[16]      2 0.5ms
+                                                                               cycles[8]      2 0.5ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[5]      2 0.5ms
+           $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[4]      3 0.5ms
+                              $techmap12990$auto$abc9_ops.cc:1552:reintegrate$12983.A[3]      2 0.5ms
+                                                                             u_tx.cnt[5]      3 0.5ms
+                                                                       u_core.issued[27]      2 0.5ms
+                                                                      u_core.retired[29]      1 0.5ms
+                                                                              tx_data[6]      1 0.5ms
+                                                                            u_core.s[43]      3 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[20]      1 0.5ms
+                                        $techmap13074$abc$12907$lut$aiger12906$1369.A[0]      2 0.5ms
+                                                                             lfsr_lo[16]      1 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[31]      1 0.5ms
+                              $techmap13079$auto$abc9_ops.cc:1552:reintegrate$12956.A[1]      2 0.5ms
+                                                                                resp[72]      1 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[16]      1 0.5ms
+                                                                                resp[87]      1 0.5ms
+                                                                              u_tx.sh[5]      1 0.5ms
+                                                                            u_tx.bitn[0]      2 0.5ms
+                                                                            u_core.s[56]      2 0.5ms
+                                                                              rx_data[2]      1 0.5ms
+                                                                      u_core.retired[17]      1 0.5ms
+                        $techmap13184$abc$12907$lut$auto$rtlil.cc:3575:AndGate$6424.A[0]      2 0.5ms
+                                                                            u_core.s[53]      3 0.5ms
+         $techmap13047$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[7].A[1]      2 0.5ms
+                              $techmap13065$auto$abc9_ops.cc:1552:reintegrate$12959.A[1]      1 0.5ms
+                                                                       u_core.issued[14]      2 0.5ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2577      3 0.5ms
+                                                                             lfsr_lo[22]      1 0.5ms
+         $techmap13041$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[6].A[1]      2 0.5ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[27]      1 0.4ms
+                                                                            u_core.s[61]      2 0.4ms
+                                                                                resp[43]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[21]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[18]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[21]      1 0.4ms
+                                        $techmap13098$abc$12907$lut$aiger12906$1441.A[0]      3 0.4ms
+                                                                              lfsr_lo[7]      1 0.4ms
+                                                                              u_rx.st[3]      3 0.4ms
+                                        $techmap13056$abc$12907$lut$aiger12906$1329.A[1]      2 0.4ms
+                                                                            u_core.s[62]      2 0.4ms
+                                                                               u_core.v2      2 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[15]      1 0.4ms
+                                                                                resp[91]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[20]      2 0.4ms
+                                              $auto$alumacc.cc:512:replace_alu$2897.Y[0]      2 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[24]      1 0.4ms
+                           $techmap13183$abc$12907$lut$flatten\u_tx.$procmux$2184_Y.A[1]      2 0.4ms
+                                                                       u_core.issued[21]      2 0.4ms
+                                                                       u_core.retired[1]      1 0.4ms
+                                                                             lfsr_lo[11]      1 0.4ms
+                                                                      u_core.retired[28]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[25]      2 0.4ms
+                              $techmap13021$auto$abc9_ops.cc:1552:reintegrate$12975.A[1]      2 0.4ms
+                                                                              u_tx.sh[1]      1 0.4ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[0]      2 0.4ms
+                              $techmap13136$auto$abc9_ops.cc:1552:reintegrate$12922.A[1]      2 0.4ms
+                              $techmap13005$auto$abc9_ops.cc:1552:reintegrate$12980.A[1]      2 0.4ms
+                                                                             lfsr_lo[21]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[29]      1 0.4ms
+                                                                             u_tx.cnt[2]      3 0.4ms
+                                                                            u_core.s[59]      2 0.4ms
+                                                                       u_core.issued[19]      3 0.4ms
+                                        $techmap13004$abc$12907$lut$aiger12906$1018.A[1]      2 0.4ms
+                              $techmap13021$auto$abc9_ops.cc:1552:reintegrate$12975.A[0]      2 0.4ms
+                                                                            u_core.s[60]      2 0.4ms
+                                                                            u_core.s[40]      4 0.4ms
+                                        $techmap13163$abc$12907$lut$not$aiger12906$443.A      1 0.4ms
+                                                                            u_core.s[33]      2 0.4ms
+                              $techmap13045$auto$abc9_ops.cc:1552:reintegrate$12965.A[1]      2 0.4ms
+                              $techmap13131$auto$abc9_ops.cc:1552:reintegrate$12926.A[0]      2 0.4ms
+                                                                        u_core.issued[8]      2 0.4ms
+                                                                              cycles[15]      2 0.4ms
+                                                                            u_core.s[50]      5 0.4ms
+                                                                            u_core.s[41]      3 0.4ms
+                                                    $auto$clkbufmap.cc:262:execute$13292      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[30]      1 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[31]      1 0.4ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[4]      1 0.4ms
+                        $techmap13256$abc$12907$lut$flatten\u_rx.$procmux$2249_Y[1].A[1]      1 0.4ms
+                                                                        u_core.issued[7]      3 0.4ms
+                                                                      u_core.retired[22]      1 0.4ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[7]      2 0.4ms
+                              $techmap13112$auto$abc9_ops.cc:1552:reintegrate$12943.A[0]      2 0.4ms
+                                                                            u_core.s[54]      2 0.4ms
+                                              $auto$alumacc.cc:512:replace_alu$2918.Y[0]      2 0.4ms
+                        $techmap13239$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[4].A[1]      1 0.4ms
+                                        $techmap13044$abc$12907$lut$aiger12906$1255.A[0]      2 0.4ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[16]      1 0.4ms
+                                                                       u_core.issued[23]      3 0.4ms
+                                                                            u_tx.bitn[1]      2 0.4ms
+                                                                                resp[69]      1 0.4ms
+                                                                            u_core.s[57]      2 0.4ms
+                                                                       u_core.retired[4]      2 0.4ms
+                                                                              u_tx.sh[2]      1 0.4ms
+                              $techmap13028$auto$abc9_ops.cc:1552:reintegrate$12971.A[0]      2 0.3ms
+                              $techmap13045$auto$abc9_ops.cc:1552:reintegrate$12965.A[0]      2 0.3ms
+                              $techmap13070$auto$abc9_ops.cc:1552:reintegrate$12958.A[0]      2 0.3ms
+                                              $auto$alumacc.cc:512:replace_alu$2900.Y[8]      1 0.3ms
+                                                                              lfsr_lo[6]      1 0.3ms
+                                                                              cycles[11]      2 0.3ms
+                              $techmap13059$auto$abc9_ops.cc:1552:reintegrate$12961.A[0]      2 0.3ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[0]      2 0.3ms
+                                                                              tx_data[5]      1 0.3ms
+                                        $techmap13090$abc$12907$lut$aiger12906$1420.A[0]      2 0.3ms
+                              $techmap13154$auto$abc9_ops.cc:1552:reintegrate$12912.A[0]      2 0.3ms
+                                                               $abc$12907$aiger12906$812      1 0.3ms
+                                                                              rx_data[6]      1 0.3ms
+                                                                                resp[94]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[16]      1 0.3ms
+                                        $techmap13020$abc$12907$lut$aiger12906$1111.A[1]      2 0.3ms
+                                                                              rx_data[7]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[13]      2 0.3ms
+                                                                       u_core.issued[20]      2 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[24]      2 0.3ms
+                              $techmap13013$auto$abc9_ops.cc:1552:reintegrate$12978.A[3]      3 0.3ms
+                                                                       u_core.issued[15]      3 0.3ms
+                              $techmap13106$auto$abc9_ops.cc:1552:reintegrate$12945.A[0]      2 0.3ms
+                                                                       u_core.issued[13]      3 0.3ms
+                                        $techmap13050$abc$12907$lut$aiger12906$1270.A[0]      2 0.3ms
+                                                                            u_core.s[63]      2 0.3ms
+                                        $techmap13004$abc$12907$lut$aiger12906$1018.A[0]      2 0.3ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[2]      1 0.3ms
+                              $techmap13091$auto$abc9_ops.cc:1552:reintegrate$12950.A[1]      2 0.3ms
+                                                                             lfsr_lo[24]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[26]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2900.Y[15]      1 0.3ms
+                                                                            u_rx.bitn[0]      2 0.3ms
+                              $techmap13059$auto$abc9_ops.cc:1552:reintegrate$12961.A[1]      2 0.3ms
+                                                                             lfsr_lo[23]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[14]      2 0.3ms
+                                                                       u_core.issued[10]      3 0.3ms
+        $techmap13072$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[11].A[1]      2 0.3ms
+                                                                       u_core.issued[22]      2 0.3ms
+                                                                                resp[78]      1 0.3ms
+                                                                               cycles[3]      2 0.3ms
+                                      $techmap13174$abc$12907$lut$procmux$1835_Y[1].A[1]      1 0.3ms
+                                                                            u_tx.bitn[3]      2 0.3ms
+                                         $techmap12996$abc$12907$lut$aiger12906$769.A[1]      3 0.3ms
+                                                                      u_core.retired[23]      1 0.3ms
+                                                                                resp[92]      1 0.3ms
+                              $techmap13083$auto$abc9_ops.cc:1552:reintegrate$12954.A[1]      2 0.3ms
+                                        $techmap13034$abc$12907$lut$aiger12906$1212.A[0]      2 0.3ms
+                                                                            u_tx.bitn[2]      2 0.3ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[6]      2 0.3ms
+                                                                              u_tx.sh[6]      1 0.3ms
+                                                                               u_core.v1      1 0.3ms
+                                         $techmap12993$abc$12907$lut$aiger12906$750.A[4]      2 0.3ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[8]      2 0.3ms
+                                                                              lfsr_lo[2]      1 0.3ms
+                                 $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2638      1 0.3ms
+                                                                                     clk    370 0.3ms
+                              $techmap13161$auto$abc9_ops.cc:1552:reintegrate$12909.A[0]      2 0.3ms
+                                                                       u_core.issued[11]      3 0.3ms
+                                                                              u_rx.sh[0]      1 0.3ms
+                                                                              tx_data[3]      1 0.3ms
+                       $techmap13148$abc$12907$lut$logic_and$top_bench.sv:105$365_Y.A[3]      1 0.3ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[15]      2 0.3ms
+                                                                                 beat[0]      1 0.3ms
+                                                                               resp[103]      1 0.3ms
+                                                                              u_tx.sh[4]      1 0.3ms
+                                                                               resp[101]      1 0.3ms
+                       $techmap13229$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[7].A[4]      1 0.3ms
+                              $techmap13038$auto$abc9_ops.cc:1552:reintegrate$12967.A[4]      1 0.3ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[4]      1 0.3ms
+                              $techmap13145$auto$abc9_ops.cc:1552:reintegrate$12917.A[3]      1 0.3ms
+                                                                            u_rx.bitn[2]      1 0.3ms
+                                                                             lfsr_lo[18]      1 0.2ms
+                                                                       u_core.issued[12]      3 0.2ms
+                                        $techmap13044$abc$12907$lut$aiger12906$1255.A[1]      2 0.2ms
+                                                                             lfsr_lo[13]      1 0.2ms
+                                                                            u_rx.sync[0]      1 0.2ms
+                                                              $abc$12907$aiger12906$796b      1 0.2ms
+                                                                                resp[77]      1 0.2ms
+                                                                              lfsr_lo[5]      1 0.2ms
+                                                                       u_core.retired[5]      1 0.2ms
+                                                                              tx_data[1]      1 0.2ms
+                                                                      u_core.retired[21]      1 0.2ms
+                        $techmap13255$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[1].A[1]      1 0.2ms
+                                                                       u_core.issued[26]      2 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[30]      2 0.2ms
+                                                                                resp[93]      1 0.2ms
+                                                                             lfsr_lo[26]      1 0.2ms
+                        $techmap13252$abc$12907$lut$flatten\u_rx.$procmux$2249_Y[2].A[1]      1 0.2ms
+                                                                                resp[97]      1 0.2ms
+                                                                             u_tx.cnt[0]      2 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[29]      1 0.2ms
+                                                                               rstcnt[3]      1 0.2ms
+                                                                       u_core.issued[17]      3 0.2ms
+                                        $techmap13056$abc$12907$lut$aiger12906$1329.A[0]      2 0.2ms
+                       $techmap13229$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[7].A[5]      1 0.2ms
+                                                                              lfsr_lo[1]      1 0.2ms
+                                                                                resp[96]      1 0.2ms
+                                                                               rstcnt[0]      1 0.2ms
+         $techmap13058$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[8].A[1]      2 0.2ms
+                              $techmap13005$auto$abc9_ops.cc:1552:reintegrate$12980.A[0]      2 0.2ms
+                                      $techmap13243$abc$12907$lut$procmux$1835_Y[3].A[1]      1 0.2ms
+                              $techmap13030$auto$abc9_ops.cc:1552:reintegrate$12970.A[1]      1 0.2ms
+                                                                                resp[95]      1 0.2ms
+                                                                                resp[59]      1 0.2ms
+                                                                      u_core.retired[27]      1 0.2ms
+                                                                      u_core.retired[19]      1 0.2ms
+                                                                              u_tx.sh[8]      1 0.2ms
+                              $techmap13159$auto$abc9_ops.cc:1552:reintegrate$12910.A[4]      1 0.2ms
+                                                                             lfsr_lo[15]      1 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[21]      1 0.2ms
+                                        $techmap13078$abc$12907$lut$aiger12906$1381.A[0]      2 0.2ms
+                                                                                resp[46]      1 0.2ms
+                                                                                resp[88]      1 0.2ms
+                              $techmap13022$auto$abc9_ops.cc:1552:reintegrate$12974.A[1]      1 0.2ms
+                                                                                resp[41]      1 0.2ms
+                                                                                resp[81]      1 0.2ms
+                                                                                beat[25]      1 0.2ms
+                                                                               resp[100]      1 0.2ms
+                                                                              u_tx.sh[3]      1 0.2ms
+                       $techmap13242$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[4].A[3]      1 0.2ms
+                                                                                resp[44]      1 0.2ms
+                                                                                resp[50]      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[17]      1 0.2ms
+                              $techmap13157$auto$abc9_ops.cc:1552:reintegrate$12911.A[4]      1 0.2ms
+                       $techmap13236$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[5].A[5]      1 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[23]      1 0.2ms
+                                                                                resp[57]      1 0.2ms
+                                                                              rx_data[4]      1 0.2ms
+                                                                                resp[80]      1 0.2ms
+                                                               $PACKER_GND_NET$legal$111      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[24]      1 0.2ms
+                                                                                   st[0]      3 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[17]      1 0.2ms
+                                        $techmap13063$abc$12907$lut$aiger12906$1339.A[0]      2 0.2ms
+                                                                                resp[84]      1 0.2ms
+                                      $techmap13250$abc$12907$lut$procmux$1835_Y[2].A[1]      1 0.2ms
+                                                                                resp[86]      1 0.2ms
+                              $techmap13157$auto$abc9_ops.cc:1552:reintegrate$12911.A[3]      1 0.2ms
+                                                                                resp[53]      1 0.2ms
+                                                                       u_core.retired[3]      1 0.2ms
+                                                               $abc$12907$aiger12906$395      1 0.2ms
+                                                                                beat[23]      1 0.2ms
+                                                                       u_core.issued[16]      3 0.2ms
+                                                                        u_core.issued[2]      2 0.2ms
+                                                                                resp[70]      1 0.2ms
+                                                                      u_core.retired[25]      1 0.2ms
+                                                                      u_core.retired[18]      1 0.2ms
+                                                                               rstcnt[2]      1 0.2ms
+                                         $techmap12993$abc$12907$lut$aiger12906$750.A[5]      1 0.2ms
+                        $techmap13248$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[3].A[1]      1 0.2ms
+                                                                                 beat[5]      1 0.2ms
+                                                                              tx_data[4]      1 0.2ms
+                                                               $PACKER_GND_NET$legal$415      1 0.2ms
+                                                                      u_core.retired[20]      1 0.2ms
+                                                               $PACKER_GND_NET$legal$447      1 0.2ms
+                                                                                resp[47]      1 0.2ms
+                              $techmap13038$auto$abc9_ops.cc:1552:reintegrate$12967.A[3]      1 0.2ms
+                                                                      u_core.retired[31]      1 0.2ms
+                                                                                beat[19]      1 0.2ms
+                        $techmap13226$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[7].A[1]      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[45]      1 0.2ms
+                                                                        u_core.issued[9]      3 0.2ms
+                                                                            u_core.s[32]      2 0.2ms
+                                                                              rx_data[3]      1 0.2ms
+                                                                                beat[21]      1 0.2ms
+                                                                              rx_data[5]      1 0.2ms
+                                                                                resp[65]      1 0.2ms
+                                                                       u_core.issued[18]      3 0.2ms
+                                                                                resp[71]      1 0.2ms
+                                                                                resp[73]      1 0.2ms
+              $techmap13010$abc$12907$lut$auto$simplemap.cc:271:simplemap_eqne$3930.A[3]      1 0.2ms
+                        $techmap13231$abc$12907$lut$flatten\u_tx.$procmux$2220_Y[6].A[0]      1 0.2ms
+                                                       $shiftx$top_bench.sv:111$371.Y[6]      1 0.2ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[9]      2 0.2ms
+                                                                       u_core.retired[0]      1 0.2ms
+                                                                                resp[56]      1 0.2ms
+                       $techmap13236$abc$12907$lut$shiftx$top_bench.sv:111$371.Y[5].A[4]      1 0.2ms
+                                                               $PACKER_VCC_NET$legal$589      1 0.2ms
+                                                                       u_core.issued[29]      2 0.2ms
+                                                                                resp[90]      1 0.2ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[0]      1 0.2ms
+                                                                            u_rx.bitn[1]      1 0.2ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[9]      1 0.2ms
+                                                                                resp[66]      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[26]      1 0.2ms
+                                         $techmap13195$abc$12907$lut$aiger12906$828.A[4]      1 0.2ms
+                                                                      u_core.retired[26]      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[27]      1 0.2ms
+                                                                $PACKER_GND_NET$legal$71      1 0.2ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13274      1 0.2ms
+                                                                      u_core.retired[15]      1 0.2ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[7]      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[30]      1 0.2ms
+                                                                                resp[58]      1 0.2ms
+                                                                      u_core.retired[30]      1 0.2ms
+                                                                                resp[45]      1 0.2ms
+                                                                      u_core.retired[13]      1 0.2ms
+                                                                       u_core.retired[7]      1 0.2ms
+                                                       $shiftx$top_bench.sv:111$371.Y[0]      1 0.2ms
+                         $techmap13203$abc$12907$lut$flatten\u_core.$procmux$2152_Y.A[0]      1 0.2ms
+        $techmap13067$abc$12907$lut$auto$opt_expr.cc:205:group_cell_inputs$3310[10].A[1]      2 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[21]      1 0.2ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[4]      1 0.2ms
+                                         $techmap13182$abc$12907$lut$aiger12906$863.A[3]      1 0.2ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13286      1 0.2ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13258      1 0.2ms
+                                                                      u_core.retired[16]      1 0.2ms
+                                                                                resp[82]      1 0.2ms
+                                                       $shiftx$top_bench.sv:111$371.Y[1]      1 0.2ms
+                                                               $abc$12907$aiger12906$807      1 0.2ms
+                                                                                resp[49]      1 0.2ms
+                                                                                resp[79]      1 0.2ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13264      1 0.2ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[13]      1 0.2ms
+                                                                                resp[40]      1 0.2ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[3]      1 0.2ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[2]      1 0.2ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[10]      2 0.2ms
+                                                                                beat[10]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[37]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[35]      1 0.1ms
+                                                                                resp[83]      1 0.1ms
+                                                                                 beat[6]      1 0.1ms
+                                                                                resp[98]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[25]      1 0.1ms
+                                                       $shiftx$top_bench.sv:111$371.Y[4]      1 0.1ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[7]      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2906.Y[11]      2 0.1ms
+                                                               $PACKER_GND_NET$legal$471      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[20]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[18]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[42]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2410[1]      1 0.1ms
+                                                                               resp[102]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[40]      1 0.1ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[1]      1 0.1ms
+                                                 $abc$12907$flatten\u_tx.$procmux$2184_Y      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$131      1 0.1ms
+                                                                      u_core.retired[12]      1 0.1ms
+                                                               $abc$12907$aiger12906$792      1 0.1ms
+                                                               $PACKER_GND_NET$legal$585      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[26]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[3]      1 0.1ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[4]      1 0.1ms
+                                                                                resp[54]      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$603      1 0.1ms
+                                                            $abc$12907$procmux$1835_Y[2]      1 0.1ms
+                                              $abc$12907$flatten\u_rx.$procmux$2249_Y[2]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[33]      1 0.1ms
+                                                                                resp[61]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$467      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13260      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[17]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[10]      1 0.1ms
+                                                            $abc$12907$procmux$1835_Y[3]      1 0.1ms
+                                         $techmap13199$abc$12907$lut$aiger12906$819.A[4]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[3]      1 0.1ms
+                                                                                 beat[9]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[12]      1 0.1ms
+                                                                                resp[76]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$517      1 0.1ms
+                              $techmap13039$auto$abc9_ops.cc:1552:reintegrate$12966.A[1]      1 0.1ms
+                                                                                beat[24]      1 0.1ms
+                                                        $flatten\u_rx.$procmux$2264.Y[8]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[11]      1 0.1ms
+                                               $abc$12907$flatten\u_core.$procmux$2152_Y      1 0.1ms
+                                                                        u_core.issued[4]      2 0.1ms
+                                                               $PACKER_GND_NET$legal$627      1 0.1ms
+                                                               $PACKER_GND_NET$legal$475      1 0.1ms
+                                                               $PACKER_GND_NET$legal$463      1 0.1ms
+                                                               $PACKER_GND_NET$legal$439      1 0.1ms
+                                                                       u_core.retired[9]      1 0.1ms
+                                                                                 beat[1]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2447[3]      1 0.1ms
+                                                            $abc$12907$procmux$1835_Y[1]      1 0.1ms
+                                                                                resp[67]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$435      1 0.1ms
+                                                               $PACKER_GND_NET$legal$423      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13288      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2918.Y[2]      1 0.1ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[8]      1 0.1ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[6]      1 0.1ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[5]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2410[2]      1 0.1ms
+                                                                                resp[89]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$175      1 0.1ms
+                                                               $PACKER_GND_NET$legal$163      1 0.1ms
+                                                                      u_core.retired[10]      1 0.1ms
+                                                       $shiftx$top_bench.sv:111$371.Y[2]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[43]      1 0.1ms
+                                        $techmap13050$abc$12907$lut$aiger12906$1270.A[1]      2 0.1ms
+                                                                                resp[42]      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$513      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13290      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13276      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[2]      1 0.1ms
+                                                       $shiftx$top_bench.sv:111$371.Y[3]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$187      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[41]      1 0.1ms
+                                                       $shiftx$top_bench.sv:111$371.Y[7]      1 0.1ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[3]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2447[2]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[4]      2 0.1ms
+                              $techmap13016$auto$abc9_ops.cc:1552:reintegrate$12977.A[0]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$511      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13272      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13268      1 0.1ms
+                                                                      u_core.retired[14]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[20]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2447[0]      1 0.1ms
+                                         $techmap13192$abc$12907$lut$aiger12906$835.A[4]      1 0.1ms
+                                                                        u_core.issued[6]      2 0.1ms
+                                                               $PACKER_GND_NET$legal$403      1 0.1ms
+                                                                $PACKER_GND_NET$legal$55      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13262      1 0.1ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[6]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[28]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2410[0]      1 0.1ms
+                                              $abc$12907$flatten\u_rx.$procmux$2249_Y[1]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$443      1 0.1ms
+                                                               $PACKER_GND_NET$legal$171      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13278      1 0.1ms
+                                                                       u_core.retired[2]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[15]      1 0.1ms
+                                                                                resp[99]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[34]      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$573      1 0.1ms
+                                                               $PACKER_GND_NET$legal$571      1 0.1ms
+                                                               $PACKER_GND_NET$legal$559      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[16]      1 0.1ms
+                                                                       u_core.issued[31]      2 0.1ms
+                                                                                resp[75]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$391      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13282      1 0.1ms
+                                                                      u_core.retired[24]      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[24]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[32]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$183      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[13]      1 0.1ms
+                                                                                resp[60]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[14]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[23]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[44]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[38]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[31]      1 0.1ms
+                                                               $abc$12907$aiger12906$802      1 0.1ms
+                                                                                resp[74]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$639      1 0.1ms
+                                                               $PACKER_GND_NET$legal$635      1 0.1ms
+                                                               $PACKER_GND_NET$legal$631      1 0.1ms
+                                                               $PACKER_GND_NET$legal$399      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13280      1 0.1ms
+                                                                      u_core.retired[11]      1 0.1ms
+                                                                       u_core.retired[8]      1 0.1ms
+                                                                                 beat[2]      1 0.1ms
+                               $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[5]      1 0.1ms
+                                                                       u_core.issued[30]      2 0.1ms
+                                                               $PACKER_GND_NET$legal$581      1 0.1ms
+                                                                $PACKER_GND_NET$legal$35      1 0.1ms
+                                                                       u_core.retired[6]      1 0.1ms
+                                                        $flatten\u_rx.$procmux$2264.Y[4]      1 0.1ms
+                                                                                resp[68]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$619      1 0.1ms
+                                                               $PACKER_GND_NET$legal$431      1 0.1ms
+                                                                $PACKER_GND_NET$legal$27      1 0.1ms
+                                                                                beat[20]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[5]      1 0.1ms
+                                              $abc$12907$flatten\u_tx.$procmux$2195_Y[1]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2906.Y[1]      1 0.1ms
+                                                                                beat[22]      1 0.1ms
+                                                        $flatten\u_rx.$procmux$2264.Y[7]      1 0.1ms
+                                              $abc$12907$flatten\u_rx.$procmux$2249_Y[0]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$567      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13266      1 0.1ms
+                                                                                beat[18]      1 0.1ms
+                                                        $flatten\u_rx.$procmux$2264.Y[5]      1 0.1ms
+                                          $abc$12907$auto$fsm_map.cc:170:map_fsm$2447[1]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$647      1 0.1ms
+                                                               $PACKER_GND_NET$legal$543      1 0.1ms
+                                                               $PACKER_GND_NET$legal$411      1 0.1ms
+                                                                                beat[13]      1 0.1ms
+                                                        $flatten\u_rx.$procmux$2264.Y[1]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$563      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$387      1 0.1ms
+                                                                $PACKER_GND_NET$legal$47      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[29]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$503      1 0.1ms
+                                                                $PACKER_GND_NET$legal$15      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[9]      1 0.1ms
+                                                                              rx_data[0]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$419      1 0.1ms
+                                                               $PACKER_GND_NET$legal$407      1 0.1ms
+                                                                $PACKER_GND_NET$legal$59      1 0.1ms
+                                                               $PACKER_GND_NET$legal$623      1 0.1ms
+                                                               $PACKER_GND_NET$legal$427      1 0.1ms
+                                                               $PACKER_GND_NET$legal$395      1 0.1ms
+                                                                $PACKER_GND_NET$legal$99      1 0.1ms
+                                                                $PACKER_GND_NET$legal$23      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13284      1 0.1ms
+                                                $auto$xilinx_dffopt.cc:347:execute$13270      1 0.1ms
+                                                               $PACKER_GND_NET$legal$295      1 0.1ms
+                                                                $PACKER_GND_NET$legal$51      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[3]      1 0.1ms
+                                                                                beat[17]      1 0.1ms
+                                                                                beat[11]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[19]      1 0.1ms
+                                                              $abc$12907$aiger12906$128b      1 0.1ms
+                                                               $PACKER_GND_NET$legal$107      1 0.1ms
+                                                                                 beat[8]      1 0.1ms
+                                                                                 beat[3]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[39]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$667      1 0.1ms
+                                                                                 beat[7]      1 0.1ms
+                                                                $PACKER_GND_NET$legal$87      1 0.1ms
+                                                                $PACKER_GND_NET$legal$75      1 0.1ms
+                                                                $PACKER_GND_NET$legal$91      1 0.1ms
+                                                                 $PACKER_VCC_NET$legal$3      1 0.1ms
+                                                                                beat[14]      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[14]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[7]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$375      1 0.1ms
+                                                               $PACKER_GND_NET$legal$311      1 0.1ms
+                                                               $PACKER_GND_NET$legal$331      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[1]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$663      1 0.1ms
+                                                               $PACKER_GND_NET$legal$279      1 0.1ms
+                                                                $PACKER_GND_NET$legal$19      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[12]      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[11]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$363      1 0.1ms
+                                                               $PACKER_GND_NET$legal$315      1 0.1ms
+                                                                $PACKER_GND_NET$legal$31      1 0.1ms
+                                                                                 beat[4]      1 0.1ms
+                                                                       u_core.issued[28]      2 0.1ms
+                                                               $PACKER_GND_NET$legal$607      1 0.1ms
+                                                               $PACKER_GND_NET$legal$271      1 0.1ms
+                                                               $PACKER_GND_NET$legal$291      1 0.1ms
+                                                               $PACKER_GND_NET$legal$263      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[19]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$307      1 0.1ms
+                                                               $PACKER_VCC_NET$legal$259      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[12]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$287      1 0.1ms
+                                                                $PACKER_GND_NET$legal$39      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[22]      1 0.1ms
+                                                                                beat[15]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[2]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$275      1 0.1ms
+                                                                $PACKER_GND_NET$legal$43      1 0.1ms
+                                                                 $PACKER_GND_NET$legal$7      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[10]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$359      1 0.1ms
+                                                                $PACKER_GND_NET$legal$11      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[5]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[1]      1 0.1ms
+                                                                                beat[16]      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[36]      1 0.1ms
+                                                     $abc$12907$aiger12906$792$legal$655      1 0.1ms
+                                                               $PACKER_GND_NET$legal$367      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[14]      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[13]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[9]      1 0.1ms
+                                                                                beat[12]      1 0.1ms
+                                                              $abc$12907$aiger12906$782b      1 0.1ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[46]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$303      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[11]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[7]      1 0.1ms
+                                                    $abc$12907$aiger12906$796b$legal$659      1 0.1ms
+                                                               $PACKER_GND_NET$legal$649      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[8]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[2]      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2894.Y[6]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$671      1 0.1ms
+                                                               $PACKER_GND_NET$legal$347      1 0.1ms
+                                                               $PACKER_GND_NET$legal$319      1 0.1ms
+                                                               $PACKER_GND_NET$legal$335      1 0.1ms
+                                             $auto$alumacc.cc:512:replace_alu$2903.Y[18]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$351      1 0.1ms
+                                                               $PACKER_GND_NET$legal$299      1 0.1ms
+                                                               $PACKER_GND_NET$legal$267      1 0.1ms
+                                              $auto$alumacc.cc:512:replace_alu$2903.Y[6]      1 0.1ms
+                                                               $PACKER_GND_NET$legal$283      1 0.1ms
+                                                               $abc$12907$aiger12906$587      1 0.0ms
+                                                               $abc$12907$aiger12906$555      1 0.0ms
+                                                               $abc$12907$aiger12906$579      1 0.0ms
+                                                               $abc$12907$aiger12906$603      1 0.0ms
+                                                               $abc$12907$aiger12906$595      1 0.0ms
+                                                               $abc$12907$aiger12906$539      1 0.0ms
+                                                               $abc$12907$aiger12906$515      1 0.0ms
+                                                               $abc$12907$aiger12906$499      1 0.0ms
+                                                               $abc$12907$aiger12906$475      1 0.0ms
+                                                               $abc$12907$aiger12906$459      1 0.0ms
+                                                               $abc$12907$aiger12906$699      1 0.0ms
+                                                               $abc$12907$aiger12906$691      1 0.0ms
+                                                               $abc$12907$aiger12906$659      1 0.0ms
+                                                               $abc$12907$aiger12906$651      1 0.0ms
+                                                               $abc$12907$aiger12906$627      1 0.0ms
+                                                               $abc$12907$aiger12906$563      1 0.0ms
+                                                               $abc$12907$aiger12906$523      1 0.0ms
+                                                               $abc$12907$aiger12906$467      1 0.0ms
+                                                               $abc$12907$aiger12906$451      1 0.0ms
+                                                               $abc$12907$aiger12906$411      1 0.0ms
+                                                               $abc$12907$aiger12906$387      1 0.0ms
+                                                       $shiftx$top_bench.sv:111$371.Y[5]      1 0.0ms
+                                                               $PACKER_GND_NET$legal$643      1 0.0ms
+                                                               $PACKER_GND_NET$legal$597      1 0.0ms
+                                                                  u_rx.bitn[2]$legal$579      1 0.0ms
+                                                               $PACKER_GND_NET$legal$551      1 0.0ms
+                                                               $PACKER_GND_NET$legal$547      1 0.0ms
+                                                               $PACKER_GND_NET$legal$535      1 0.0ms
+                                                               $PACKER_GND_NET$legal$531      1 0.0ms
+                                                               $PACKER_VCC_NET$legal$527      1 0.0ms
+                                                               $PACKER_GND_NET$legal$521      1 0.0ms
+                                                               $PACKER_GND_NET$legal$499      1 0.0ms
+                                                               $PACKER_GND_NET$legal$495      1 0.0ms
+                                                               $PACKER_GND_NET$legal$487      1 0.0ms
+                                                             u_core.retired[1]$legal$389      1 0.0ms
+                                    $auto$alumacc.cc:512:replace_alu$2906.Y[0]$legal$385      1 0.0ms
+                                                               $PACKER_GND_NET$legal$255      1 0.0ms
+                                                               $PACKER_GND_NET$legal$239      1 0.0ms
+                                                               $PACKER_GND_NET$legal$223      1 0.0ms
+                                                               $PACKER_GND_NET$legal$219      1 0.0ms
+                                                               $PACKER_GND_NET$legal$207      1 0.0ms
+                                                               $PACKER_GND_NET$legal$143      1 0.0ms
+                                                               $PACKER_VCC_NET$legal$115      1 0.0ms
+                                                                $PACKER_GND_NET$legal$95      1 0.0ms
+                                                                $PACKER_GND_NET$legal$83      1 0.0ms
+                                                                $PACKER_GND_NET$legal$79      1 0.0ms
+                                                                $PACKER_GND_NET$legal$67      1 0.0ms
+                                                                $PACKER_GND_NET$legal$63      1 0.0ms
+        $auto$alumacc.cc:512:replace_alu$2897.genblk1.slice[0].genblk1.carry4$split$muxcy3$conn$O$to$$techmap13163$abc$12907$lut$not$aiger12906$443.A$feed$xor$CI      1 0.0ms
+                                                                                  led[2]      1 0.0ms
+                                                               $abc$12907$aiger12906$715      1 0.0ms
+                                                               $abc$12907$aiger12906$619      1 0.0ms
+                                                               $abc$12907$aiger12906$611      1 0.0ms
+                                                               $abc$12907$aiger12906$531      1 0.0ms
+                                                               $abc$12907$aiger12906$491      1 0.0ms
+                                                               $abc$12907$aiger12906$483      1 0.0ms
+                                                               $abc$12907$aiger12906$427      1 0.0ms
+                                                               $abc$12907$aiger12906$419      1 0.0ms
+                                             $auto$alumacc.cc:512:replace_alu$2894.Y[15]      1 0.0ms
+                                                               $abc$12907$aiger12906$403      1 0.0ms
+                              $abc$12907$auto$opt_expr.cc:205:group_cell_inputs$3313[22]      1 0.0ms
+                                                                            uart_rxd_out      1 0.0ms
+                                                               $PACKER_GND_NET$legal$669      1 0.0ms
+                                                               $PACKER_GND_NET$legal$665      1 0.0ms
+                                                     $abc$12907$aiger12906$788$legal$661      1 0.0ms
+                                                     $abc$12907$aiger12906$812$legal$657      1 0.0ms
+                                                     $abc$12907$aiger12906$807$legal$653      1 0.0ms
+                                                     $abc$12907$aiger12906$802$legal$651      1 0.0ms
+                                                               $PACKER_GND_NET$legal$645      1 0.0ms
+                                                               $PACKER_GND_NET$legal$641      1 0.0ms
+                                                                   u_tx.cnt[9]$legal$637      1 0.0ms
+                                                                   u_tx.cnt[8]$legal$633      1 0.0ms
+                                                                   u_tx.cnt[7]$legal$629      1 0.0ms
+                                                                   u_tx.cnt[6]$legal$625      1 0.0ms
+                                                                   u_tx.cnt[5]$legal$621      1 0.0ms
+                                                                   u_tx.cnt[4]$legal$617      1 0.0ms
+                                                               $PACKER_GND_NET$legal$615      1 0.0ms
+                                                                   u_tx.cnt[3]$legal$613      1 0.0ms
+                                                               $PACKER_GND_NET$legal$611      1 0.0ms
+                                                                   u_tx.cnt[2]$legal$609      1 0.0ms
+                                                                   u_tx.cnt[1]$legal$605      1 0.0ms
+                                                               $PACKER_GND_NET$legal$601      1 0.0ms
+                                                                  u_tx.bitn[3]$legal$599      1 0.0ms
+                                                                  u_tx.bitn[2]$legal$595      1 0.0ms
+                                                               $PACKER_GND_NET$legal$593      1 0.0ms
+                                                                  u_tx.bitn[1]$legal$591      1 0.0ms
+                                    $auto$alumacc.cc:512:replace_alu$2918.Y[0]$legal$587      1 0.0ms
+                                                               $PACKER_GND_NET$legal$583      1 0.0ms
+                                                               $PACKER_GND_NET$legal$577      1 0.0ms
+                                                                  u_rx.bitn[1]$legal$575      1 0.0ms
+                                                               $PACKER_GND_NET$legal$569      1 0.0ms
+                                                               $PACKER_GND_NET$legal$565      1 0.0ms
+                                                                   u_rx.cnt[9]$legal$561      1 0.0ms
+                                                                   u_rx.cnt[8]$legal$557      1 0.0ms
+                                                               $PACKER_GND_NET$legal$555      1 0.0ms
+                                                                   u_rx.cnt[7]$legal$553      1 0.0ms
+                                                                   u_rx.cnt[6]$legal$549      1 0.0ms
+                                                                   u_rx.cnt[5]$legal$545      1 0.0ms
+                                                                   u_rx.cnt[4]$legal$541      1 0.0ms
+                                                               $PACKER_GND_NET$legal$539      1 0.0ms
+                                                                   u_rx.cnt[3]$legal$537      1 0.0ms
+                                                                   u_rx.cnt[2]$legal$533      1 0.0ms
+                                                                   u_rx.cnt[1]$legal$529      1 0.0ms
+                                                               $PACKER_GND_NET$legal$525      1 0.0ms
+                                                                        idx[3]$legal$523      1 0.0ms
+                                                                        idx[2]$legal$519      1 0.0ms
+                                                                        idx[1]$legal$515      1 0.0ms
+                                                            u_core.retired[31]$legal$509      1 0.0ms
+                                                               $PACKER_GND_NET$legal$507      1 0.0ms
+                                                            u_core.retired[30]$legal$505      1 0.0ms
+                                                            u_core.retired[29]$legal$501      1 0.0ms
+                                                            u_core.retired[28]$legal$497      1 0.0ms
+                                                            u_core.retired[27]$legal$493      1 0.0ms
+                                                               $PACKER_GND_NET$legal$491      1 0.0ms
+Info: Router2 time 1.43s
+Info: Running router1 to check that route is legal...
+
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 0 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:          0 |        0          0 |    0     0 |         0|       0.01       0.01|
+Info: Routing complete.
+Info: Router1 time 0.01s
+Info: Checksum: 0x700d43f8
+
+Info: Critical path report for clock 'clk' (posedge -> posedge):
+Info: curr total
+Info:  0.1  0.1  Source $auto$ff.cc:337:slice$3833.Q
+Info:  0.3  0.4    Net u_core.retired[0] budget 5.720000 ns (13,16) -> (13,16)
+Info:                Sink $abc$12907$lut$not$aiger12906$13.A1
+Info:  0.1  0.5  Source $abc$12907$lut$not$aiger12906$13.O6
+Info:  0.9  1.4    Net $auto$alumacc.cc:512:replace_alu$2906.Y[0] budget 6.239000 ns (13,16) -> (10,23)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.Y[0]$LUT$386.A1
+Info:  0.1  1.5  Source $auto$alumacc.cc:512:replace_alu$2906.Y[0]$LUT$386.O6
+Info:  0.0  1.5    Net $auto$alumacc.cc:512:replace_alu$2906.Y[0]$legal$385 budget 5.720000 ns (10,23) -> (10,23)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[0].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.S0
+Info:  0.5  2.0  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[0].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  2.1    Net $abc$12907$aiger12906$579 budget 6.239000 ns (10,23) -> (10,22)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[1].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.1  2.3  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[1].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  2.4    Net $abc$12907$aiger12906$587 budget 6.239000 ns (10,22) -> (10,21)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[2].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.1  2.5  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[2].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  2.6    Net $abc$12907$aiger12906$595 budget 6.239000 ns (10,21) -> (10,20)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[3].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.1  2.7  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[3].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  2.8    Net $abc$12907$aiger12906$603 budget 6.239000 ns (10,20) -> (10,19)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[4].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.1  2.9  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[4].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  3.0    Net $abc$12907$aiger12906$611 budget 6.238000 ns (10,19) -> (10,18)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[5].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.1  3.2  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[5].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CO3
+Info:  0.1  3.3    Net $abc$12907$aiger12906$619 budget 6.238000 ns (10,18) -> (10,17)
+Info:                Sink $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[6].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.CIN
+Info:  0.2  3.5  Source $auto$alumacc.cc:512:replace_alu$2906.genblk1.slice[6].genblk1.carry4$split$muxcy0$PACKED_CARRY4$.O2
+Info:  0.4  3.9    Net $auto$alumacc.cc:512:replace_alu$2906.Y[26] budget 5.869000 ns (10,17) -> (10,17)
+Info:                Sink $abc$12907$lut$aiger12906$813.A1
+Info:  0.1  4.1  Source $abc$12907$lut$aiger12906$813.O6
+Info:  0.7  4.8    Net $techmap13199$abc$12907$lut$aiger12906$819.A[5] budget 5.869000 ns (10,17) -> (10,17)
+Info:                Sink $abc$12907$lut$aiger12906$819.A6
+Info:  0.1  4.9  Source $abc$12907$lut$aiger12906$819.O6
+Info:  0.7  5.6    Net $techmap13200$abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A[5] budget 6.238000 ns (10,17) -> (13,17)
+Info:                Sink $abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.A6
+Info:  0.1  5.7  Source $abc$12907$lut$auto$opt_dff.cc:251:make_patterns_logic$2626.O6
+Info:  0.8  6.6    Net $abc$12907$auto$opt_dff.cc:251:make_patterns_logic$2626 budget 6.238000 ns (13,17) -> (13,21)
+Info:                Sink $auto$ff.cc:337:slice$3773.CE
+Info:  0.1  6.7  Setup $auto$ff.cc:337:slice$3773.CE
+Info: 2.1 ns logic, 4.5 ns routing
+
+Info: Max frequency for clock 'clk': 150.17 MHz (PASS at 12.00 MHz)
+
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 76674,  76978) |*******************+
+Info: [ 76978,  77282) |**+
+Info: [ 77282,  77586) |***+
+Info: [ 77586,  77890) |**+
+Info: [ 77890,  78194) |**+
+Info: [ 78194,  78498) |***********+
+Info: [ 78498,  78802) |**************************************+
+Info: [ 78802,  79106) |************************************************************ 
+Info: [ 79106,  79410) |****************************************+
+Info: [ 79410,  79714) |*********************************************+
+Info: [ 79714,  80018) |****************+
+Info: [ 80018,  80322) |*********************+
+Info: [ 80322,  80626) |*********************************+
+Info: [ 80626,  80930) |***************************************+
+Info: [ 80930,  81234) |**********************************+
+Info: [ 81234,  81538) |*********************+
+Info: [ 81538,  81842) |*******************+
+Info: [ 81842,  82146) |*********************+
+Info: [ 82146,  82450) |*****************************************************+
+Info: [ 82450,  82754) |***********************************+
+Info: Running post-routing legalisation...

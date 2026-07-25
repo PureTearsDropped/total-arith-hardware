@@ -1,0 +1,26 @@
+実測ログ (Arty A7-100T 実機, 2026-07-25) — 生の コンソール出力
+
+■ 初点灯 (rtl/fpga/top_arty.bit + host_test.py /dev/ttyUSB1):
+実機 sd_add2: 一致 1000/1000  (16.0s・63 フレーム/s)
+✓ 実シリコン上の 定数深さ SD 加算器が golden と 一致
+
+■ オンチップベンチ (top_bench_checked.bit + host_bench.py, 検算同段版):
+実機 on-chip ベンチ (M=10,000,000 ベクタ):
+  不一致        : 0 / 10,000,000  (チップ内 独立検算器 = 2進キャリー伝播)
+  サイクル数    : 10,000,001  → 0.9999999 加算/サイクル
+  実スループット: 100.0 M 加算/s @100MHz  (壁時計 110ms 送受信込み)
+  LFSR 終状態   : 一致 ✓ (ホスト複製と bit 一致)
+
+■ 誠実さ税 A/B (同条件・違いは 検算器の 有無のみ):
+A: 裸 (CHECK=0)         サイクル 10,000,001 / 100.0 M加算/s
+B: 全数検算 (CHECK=1)    サイクル 10,000,001 / 100.0 M加算/s  ← サイクル完全一致
+配置配線 (同段版):  裸 604 LUT / Fmax 165.40 MHz・検算 830 LUT / 141.48 MHz (+226 LUT, 上限 −17%)
+配置配線 (退去版):  裸 606 LUT / Fmax 150.17 MHz・検算 1084 LUT / 159.31 MHz (罰金 消滅)
+実機 (退去版・検算): サイクル 10,000,002 / 100.0 M加算/s / 不一致 0 / LFSR 一致
+
+■ ユニット・データシート (characterize.py, xc7a100t 配置配線後):
+pe24        LUT     43   Fmax 208.2 MHz → 遅延  4.8 ns
+barrel18    LUT    131   Fmax 168.1 MHz → 遅延  5.9 ns
+sd_mult10   LUT    936   Fmax  82.0 MHz → 遅延 12.2 ns
+blocknorm   LUT   1808   Fmax  41.1 MHz → 遅延 24.3 ns
+sed_comp    LUT   5127   Fmax  49.7 MHz → 遅延 20.1 ns
