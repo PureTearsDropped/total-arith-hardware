@@ -1,5 +1,7 @@
 # total-arith-hardware
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21489944.svg)](https://doi.org/10.5281/zenodo.21489944)
+
 **Total arithmetic as a circuit — a signed-digit block-floating-point sedenion unit, built from primitive gates (AND/OR/NOT/XOR) up to synthesizable SystemVerilog, plus a "wiring = computation" fabric where swapping a wiring table turns the same unit into a different algebra.**
 
 > ⚠️ Written with AI assistance. Independently verifiable — every claim below ships with a command that reproduces it. Verify before relying on it.
