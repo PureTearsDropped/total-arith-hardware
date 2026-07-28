@@ -18,7 +18,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from gate_bilinear import to_sd, from_sd, new_counter
-from gate_fast import sd_add2, block_normalize_g_fast
+from gate_fast import sd_add2, sd_trit, trit_comp, block_normalize_g_fast
 from gate_exponent import bus_const, bus_val
 from mul_fused import group_component
 from nd_algebra import cd_omega, ref_mult_M
@@ -46,6 +46,12 @@ class Program:
 
     def NORM(self, dst, src, block=4, Ein=0):
         self.ins.append(("NORM", dict(dst=dst, src=src, block=block, Ein=Ein)))
+        return self
+
+    def TRIT(self, dst, t, src, comp=False):
+        """第7命令 三値門 (SPEC §2.5)。t は feed 名 (行ごとの int ∈ {−1,0,+1}、
+           または 成分ごとの [int]*16)。ゲート級は 値経路のみ (フラグは NORM に 住む)。"""
+        self.ins.append(("TRIT", dict(dst=dst, t=t, src=src, comp=bool(comp))))
         return self
 
 
@@ -80,6 +86,19 @@ def run_gates(prog, feed, K=6, W=6, Win=24, Emax=20, EW=12):
                     comps.append(sd_add2(_pad(dx, n), _pad(dy, n), st))
                 out.append(comps)
             env[p["dst"]] = out
+        elif op == "TRIT":
+            out = []
+            for row, trow in zip(env[p["src"]], feed[p["t"]]):
+                ts = trow if isinstance(trow, (list, tuple)) else [trow] * len(row)
+                comps = []
+                for dx, tv in zip(row, ts):
+                    assert tv in (-1, 0, 1), "trit は {−1,0,+1} のみ"
+                    td = to_sd(int(tv), 1)[0]                # trit = SD 1桁 (tp,tn)
+                    if p["comp"]:
+                        td = trit_comp(td, st)
+                    comps.append(sd_trit(td, dx, st))
+                out.append(comps)
+            env[p["dst"]] = out
         elif op == "NORM":
             recs = []
             for row in env[p["src"]]:
@@ -108,16 +127,22 @@ def self_test():
     fa = [[rnd.randint(-9, 9) for _ in range(16)] for _ in range(B)]
     fb = [[rnd.randint(-9, 9) for _ in range(16)] for _ in range(B)]
     fc = [[rnd.randint(-9, 9) for _ in range(16)] for _ in range(B)]
+    ft = [rnd.choice([-1, 0, 1]) for _ in range(B)]
     P = (Program("mac_norm")
          .TOTALIZE("a", "in_a").TOTALIZE("b", "in_b").TOTALIZE("c", "in_c")
-         .BILIN("s", "a", "b").AXPY("s", "c").NORM("n", "s", block=4, Ein=0))
-    env, gates = run_gates(P, {"in_a": fa, "in_b": fb, "in_c": fc})
+         .BILIN("s", "a", "b").AXPY("s", "c").TRIT("g", "in_t", "s")
+         .NORM("n", "s", block=4, Ein=0))
+    env, gates = run_gates(P, {"in_a": fa, "in_b": fb, "in_c": fc, "in_t": ft})
 
     ref = [[ref_mult_M(fa[i], fb[i], _OM, 16)[k] + fc[i][k] for k in range(16)]
            for i in range(B)]
     got = decode(env["s"])
     assert got == ref, "ゲートの s ≠ 代数の 参照"
     print(f"  ① BILIN+AXPY: {B}ケース × 16成分 = ゲートの 答え ≡ 代数の 答え (厳密 整数) ✓")
+
+    gott = decode(env["g"])
+    assert gott == [[ft[i] * v for v in ref[i]] for i in range(B)], "TRIT ≠ t·s"
+    print(f"  ①b TRIT: g = t⊙s (t={ft}) — 桁ごと AND4+OR2 の 三値門 ≡ 整数積 ✓")
 
     for i, rec in enumerate(env["n"]):
         og, Eg, fg = block_normalize_g_fast([to_sd(v, 24) for v in ref[i][:4]],

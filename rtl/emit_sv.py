@@ -162,6 +162,52 @@ def gen_sed_comp(M=16, K=6, k=1):
     return len(Z)
 
 
+def gen_sd_trit(K=8):
+    "三値門 (TBM 第7命令): trit (tP,tN) × SD 語 — 桁あたり AND4+OR2・乗算器なし。"
+    reset()
+    from gate_fast import sd_trit
+    t = in_digits("tP", "tN", 1)[0]
+    X = in_digits("xP", "xN", K)
+    Z = sd_trit(t, X, null_st())
+    P, N = rails(Z)
+    emit_module(os.path.join(OUT, "sd_trit.sv"), "sd_trit",
+                [("tP", 1), ("tN", 1), ("xP", K), ("xN", K)],
+                [("zP", K, P), ("zN", K, N)])
+
+
+def gen_tbm_core(M=16, K=6, NC=4, Wc=8):
+    """一つの TBM コア: BILIN (sed 成分 0..NC−1)・AXPY・TRIT の 基本命令 ユニットが
+       **1 枚の ネットリストに 並列 同居** (手写しゼロ・全部 監査済み golden の トレース)。
+       s_k = sed_comp_k(a,b) + c_k ／ g_k = t ⊙ s_k。s と g の 両方を 観測可能に 出す。"""
+    reset()
+    from mul_fused import group_component
+    from gate_fast import sd_add2, sd_trit
+    from nd_algebra import cd_omega
+    OM = cd_omega(M)
+    OMl = [[int(OM[i, j]) for j in range(M)] for i in range(M)]
+    a = [in_digits(f"a{i}P", f"a{i}N", K) for i in range(M)]
+    b = [in_digits(f"b{i}P", f"b{i}N", K) for i in range(M)]
+    c = [in_digits(f"c{k}P", f"c{k}N", Wc) for k in range(NC)]
+    t = in_digits("tP", "tN", 1)[0]
+    inputs = [(f"a{i}{r}", K) for i in range(M) for r in ("P", "N")] + \
+             [(f"b{i}{r}", K) for i in range(M) for r in ("P", "N")] + \
+             [(f"c{k}{r}", Wc) for k in range(NC) for r in ("P", "N")] + \
+             [("tP", 1), ("tN", 1)]
+    outputs = []
+    ws = None
+    for k in range(NC):
+        Z = group_component(a, b, OMl, M, k, null_st())
+        S = sd_add2(Z, c[k], null_st())
+        G = sd_trit(t, S, null_st())
+        ws = len(S)
+        Ps, Ns = rails(S)
+        Pg, Ng = rails(G)
+        outputs += [(f"s{k}P", len(S), Ps), (f"s{k}N", len(S), Ns),
+                    (f"g{k}P", len(G), Pg), (f"g{k}N", len(G), Ng)]
+    emit_module(os.path.join(OUT, "tbm_core.sv"), "tbm_core", inputs, outputs)
+    return ws
+
+
 if __name__ == "__main__":
     print("SV 自動生成（監査済み Python → 同一ゲートグラフ）:")
     wz = gen_sd_mult()
@@ -169,4 +215,6 @@ if __name__ == "__main__":
     gen_barrel()
     gen_blocknorm()
     ws = gen_sed_comp()
-    print(f"  （sd_mult10 出力幅 {wz}・sed_comp 出力幅 {ws}）")
+    gen_sd_trit()
+    wc = gen_tbm_core()
+    print(f"  （sd_mult10 出力幅 {wz}・sed_comp 出力幅 {ws}・tbm_core s/g 幅 {wc}）")

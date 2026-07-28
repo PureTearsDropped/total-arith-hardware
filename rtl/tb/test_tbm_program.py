@@ -61,6 +61,46 @@ elif TOP == "sd_add2":
             res.append(rails_val(int(dut.zP.value), int(dut.zN.value), N + 1))
         json.dump({"z": res}, open(OUTP, "w"))
 
+elif TOP == "sd_trit":
+    @cocotb.test()
+    async def drive(dut):
+        K = len(dut.xP)
+        res = []
+        for case in VEC["cases"]:
+            tP, tN = to_rails(case["t"], 1)
+            dut.tP.value = tP; dut.tN.value = tN
+            P, N = to_rails(case["x"], K)
+            dut.xP.value = P; dut.xN.value = N
+            await settle()
+            res.append(rails_val(int(dut.zP.value), int(dut.zN.value), K))
+        json.dump({"z": res}, open(OUTP, "w"))
+
+elif TOP == "tbm_core":
+    @cocotb.test()
+    async def drive(dut):
+        K, M, NC = 6, 16, 4
+        Wc = len(dut.c0P)
+        ws = len(dut.s0P)
+        res = []
+        for case in VEC["cases"]:
+            for i in range(M):
+                P, N = to_rails(case["a"][i], K)
+                getattr(dut, f"a{i}P").value = P; getattr(dut, f"a{i}N").value = N
+                P, N = to_rails(case["b"][i], K)
+                getattr(dut, f"b{i}P").value = P; getattr(dut, f"b{i}N").value = N
+            for k in range(NC):
+                P, N = to_rails(case["c"][k], Wc)
+                getattr(dut, f"c{k}P").value = P; getattr(dut, f"c{k}N").value = N
+            tP, tN = to_rails(case["t"], 1)
+            dut.tP.value = tP; dut.tN.value = tN
+            await settle()
+            s = [rails_val(int(getattr(dut, f"s{k}P").value),
+                           int(getattr(dut, f"s{k}N").value), ws) for k in range(NC)]
+            g = [rails_val(int(getattr(dut, f"g{k}P").value),
+                           int(getattr(dut, f"g{k}N").value), ws) for k in range(NC)]
+            res.append({"s": s, "g": g})
+        json.dump({"cases": res}, open(OUTP, "w"))
+
 elif TOP == "blocknorm":
     @cocotb.test()
     async def drive(dut):

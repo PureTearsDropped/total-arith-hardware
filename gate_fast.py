@@ -100,6 +100,23 @@ def sd_add2(X, Y, st):
     return out
 
 
+# ============================================================ ②b 三値門 (TBM 第7命令 TRIT)
+def sd_trit(t, X, st):
+    """trit t=(tp,tn) × SD 語 X の **桁ごとの 積** (TBM_SPEC §2.5・SD 桁 × 語 の 原子):
+       +1=(1,0) 素通し / −1=(0,1) レール入替 (neg と 同じ 配線を ゲートで 選ぶ) / 0=(0,0) 零化。
+       out_p = tp·p ∨ tn·n ／ out_n = tp·n ∨ tn·p — 桁あたり AND4+OR2・乗算器なし。
+       trit の 0 は 算術の 零でなく **選択の 零** (捨てる 宣言)。"""
+    tp, tn = t
+    return [(OR(AND(tp, p, st), AND(tn, n, st), st),
+             OR(AND(tp, n, st), AND(tn, p, st), st)) for p, n in X]
+
+
+def trit_comp(t, st):
+    "else 枝の trit: t=0 ⟹ +1 / t≠0 ⟹ 0 (comp(t) = (¬(tp∨tn), 0))。"
+    tp, tn = t
+    return (NOT(OR(tp, tn, st), st), 0)
+
+
 # ============================================================ ① 層別 Wallace sd_sum
 def sd_sum_fast(nums, st):
     """符号つき数 リストの 和。層別 3:2 圧縮（全列 同時・O(log m)）→ 2 行 → sd_add2（定数）。"""
