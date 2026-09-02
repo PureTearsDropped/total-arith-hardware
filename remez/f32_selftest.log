@@ -1,0 +1,22 @@
+  expm1_tail[f32] 368 例  不一致 0
+[f32] EW=13 KB=9 AB=5 XW=64 G=4 Wk=40 Pc=56 Q=40 XC=7 kmax=186
+  1 点 0.3s  raw=327110  fold=270592  depth=791
+    start                     0
+    reduce                16234
+    estrin               195198
+    exp_tail              23513
+    expm1_tail            13978
+    finish:exp:lo          4337
+    finish:exp:hi          3987
+    finish:exp:near        2591
+    finish:expm1:lo        4275
+    finish:expm1:hi        3940
+    finish:expm1:near      2539
+    ('exp', 'lo'): gate=((11418091, -22), (1, 0, 0)) spec=((11418091, -22), (1, 0, 0)) OK
+    ('exp', 'hi'): gate=((11418092, -22), (0, 1, 0)) spec=((11418092, -22), (0, 1, 0)) OK
+    ('exp', 'near'): gate=((11418091, -22), (1, 1, 0)) spec=((11418091, -22), (1, 1, 0)) OK
+    ('expm1', 'lo'): gate=((14447574, -23), (1, 0, 0)) spec=((14447574, -23), (1, 0, 0)) OK
+    ('expm1', 'hi'): gate=((14447575, -23), (0, 1, 0)) spec=((14447575, -23), (0, 1, 0)) OK
+    ('expm1', 'near'): gate=((14447575, -23), (1, 1, 0)) spec=((14447575, -23), (1, 1, 0)) OK
+  535 点 11.3s  不一致 0  assert 0
+PASS

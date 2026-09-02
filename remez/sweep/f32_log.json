@@ -1,0 +1,106 @@
+{
+ "config": "f32",
+ "group": "log",
+ "quick": false,
+ "seconds": 5917.6,
+ "jobs": 1020,
+ "claims": {
+  "log": {
+   "e": 35,
+   "near_ulp": 0.50048828125,
+   "side_ulp": 1.00146484375,
+   "side_ulp_lo": 1.0009765625,
+   "side_ulp_hi": 1.00146484375,
+   "rel_bound": 2.017805121526022e-11
+  }
+ },
+ "stats": {
+  "log/lo": {
+   "n": 2139095039,
+   "exact": 1,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    1.0005656089633703,
+    [
+     10713293,
+     -23
+    ]
+   ],
+   "max_cross": [
+    -1.0,
+    null
+   ],
+   "min_margin": [
+    0.00023916549980640411,
+    [
+     14065351,
+     -23
+    ]
+   ],
+   "n_not_cr": 0,
+   "viol": [],
+   "marg": []
+  },
+  "log/hi": {
+   "n": 2139095039,
+   "exact": 1,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    1.0009925346821547,
+    [
+     13768407,
+     -23
+    ]
+   ],
+   "max_cross": [
+    0.9999999199062586,
+    [
+     8388609,
+     -23
+    ]
+   ],
+   "min_margin": [
+    0.0004534255713224411,
+    [
+     10785556,
+     -23
+    ]
+   ],
+   "n_not_cr": 0,
+   "viol": [],
+   "marg": []
+  },
+  "log/near": {
+   "n": 2139095039,
+   "exact": 1,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    0.500103235244751,
+    [
+     15889825,
+     -24
+    ]
+   ],
+   "max_cross": [
+    -1.0,
+    null
+   ],
+   "min_margin": [
+    Infinity,
+    null
+   ],
+   "n_not_cr": 16827,
+   "viol": [],
+   "marg": []
+  }
+ },
+ "confirmed_violations": {
+  "log/lo": [],
+  "log/hi": [],
+  "log/near": []
+ },
+ "truth": "numpy float64 (glibc), rechecked with mpmath dps=80"
+}

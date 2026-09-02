@@ -1,0 +1,19 @@
+{
+ "config": "f32",
+ "W_in": 24,
+ "E_range": [
+  -24,
+  104
+ ],
+ "F_search": 200,
+ "fracmin": "412980820183591463258875676738193801053765710759213/401734511064747568885490523085290650630550748445698208825344",
+ "fracmin_float": 1.0279943813864459e-09,
+ "fbits": 30,
+ "worst_M": 16367173,
+ "worst_E": 72,
+ "worst_x": "7.72917891945e+28",
+ "worst_quadrant": 1,
+ "mpmath_check": "1.02799438139e-9",
+ "seconds": 5.3,
+ "note": "exhaustive over all inputs with |x| >= 1/2 (leading position >= -1); frac = x*2/pi - round(...)"
+}

@@ -1,0 +1,39 @@
+  sqrt: 節点の根（定義域内） 4 個
+  rsqrt: 節点の根（定義域内） 4 個
+  estrin_mux[f64] 88 例  不一致 0
+[f64] EW=17 XB=11 G=4 Win=53 Wk=64 Pc=80 deg log=22 sqrt=21 rsqrt=23
+  1 点 5.5s  raw=4542803  fold=3988865
+    start                     0
+    reduce                 4637
+    reduce:log             4071
+    estrin:log          1012577
+    tail:log              54466
+    finish:log:lo          7618
+    finish:log:hi          7010
+    finish:log:near        4845
+    reduce:sqrt            4012
+    estrin:sqrt         1338962
+    tail:sqrt               248
+    finish:sqrt:lo         7490
+    finish:sqrt:hi         6869
+    finish:sqrt:near       4686
+    reduce:rsqrt           4012
+    estrin:rsqrt        1508092
+    tail:rsqrt              282
+    finish:rsqrt:lo        7448
+    finish:rsqrt:hi        6854
+    finish:rsqrt:near      4686
+    log   : fold  1095224 (共通 4637 + 固有 1090587)  depth 907
+    sqrt  : fold  1366904 (共通 4637 + 固有 1362267)  depth 800
+    rsqrt : fold  1536011 (共通 4637 + 固有 1531374)  depth 801
+    ('log', 'lo'): gate=((6786735522438058, -91), (1, 0, 0)) spec=((6786735522438058, -91), (1, 0, 0)) OK
+    ('log', 'hi'): gate=((6786735522438059, -91), (0, 1, 0)) spec=((6786735522438059, -91), (0, 1, 0)) OK
+    ('log', 'near'): gate=((6786735522438058, -91), (1, 1, 0)) spec=((6786735522438058, -91), (1, 1, 0)) OK
+    ('sqrt', 'lo'): gate=((4503599627376668, -52), (1, 0, 0)) spec=((4503599627376668, -52), (1, 0, 0)) OK
+    ('sqrt', 'hi'): gate=((4503599627376669, -52), (0, 1, 0)) spec=((4503599627376669, -52), (0, 1, 0)) OK
+    ('sqrt', 'near'): gate=((4503599627376668, -52), (1, 1, 0)) spec=((4503599627376668, -52), (1, 1, 0)) OK
+    ('rsqrt', 'lo'): gate=((9007199254728646, -53), (1, 0, 0)) spec=((9007199254728646, -53), (1, 0, 0)) OK
+    ('rsqrt', 'hi'): gate=((9007199254728648, -53), (0, 1, 0)) spec=((9007199254728648, -53), (0, 1, 0)) OK
+    ('rsqrt', 'near'): gate=((9007199254728647, -53), (1, 1, 0)) spec=((9007199254728647, -53), (1, 1, 0)) OK
+  1485 点 511.2s  不一致 0  assert 0
+PASS
