@@ -26,12 +26,13 @@ A hardware-oriented implementation of **total arithmetic** and **"wiring = compu
 - **Wiring = computation** — the multiplication is described by a *structure tensor* / wiring table. Swap the table and the same gate graph computes a different algebra: complex, quaternion, sedenion, matrix product, cyclic convolution. A registry of 19 patterns plus an inverse designer (ask for a matrix block → get the minimal group that contains it). **The wiring normal form is ternary** (coefficients ⊆ {−1, 0, +1} — TBM_SPEC §1.5 in total-arith-cuda): a permanent gatekeeper checks all 18 bilinear wirings, so the linear stages are exact adds/routes (no coefficient rounding anywhere), `R` honestly counts the true multiplies, and the gate check now covers **every** wiring (the generic `(U,V,W)` gate expansion was always universal; big wirings are spot-checked for time budget, none skipped). Custom tables with structural zeros (dual numbers, Grassmann) get **dead-product pruning** (`prune_uvw`, output-invariant — measured waste before: 25–44% of gates); merging is deliberately *not* done (order-blind merging annihilates the antisymmetric part — where non-commutativity lives — and breaks even commutative algebras; measured).
 - **Signed-digit block floating point** — mantissa digits are ternary `{−1, 0, +1}` (Avizienis 1961) sharing one base-2 exponent per 16-component sedenion (a signed-ternary cousin of MXFP/microscaling). Sign symmetry means **sign flip = swapping `+`/`−` digits = pure wiring** (zero gates); the sign is carried by the mantissa, so only a "sign-unknown" bit remains as separate status.
 - **From gates to HDL with no hand-transcription** — the SystemVerilog is *auto-emitted* by tracing the audited Python gate graph, so the HDL is the same gate graph by construction. Verified against the Python golden model with Icarus + cocotb.
+- **Elementary functions as gates** (`remez/`, v1.2.0) — exp / expm1 / log / sqrt / rsqrt are *range reduction on the exponent bus × a Remez coefficient tape (Estrin) × a one-sided exit*; the gate graphs are bit-identical to an integer-only spec, flags included, and the spec was swept over **every finite float32 input** (5.78 × 10¹⁰ checks, 0 violations, worst one-sided error 1.0039 ulp, nearest mode ≤ 0.5001 ulp). Details in the `remez/` section below and `remez/README.md`.
 
 ### Architecture
 
 ```
 Layer 1  algebra core (integer-exact, Python)     sd2_core, nd_algebra, matrix_algebra, bfp_sed
-Layer 2  gate implementation (from AND/OR/NOT/XOR) gate_bilinear, gate_exponent, gate_fast, multi_add, mul_fused, ...
+Layer 2  gate implementation (from AND/OR/NOT/XOR) gate_bilinear, gate_exponent, gate_fast, multi_add, mul_fused, remez/ ...
 Layer 3  wiring (= choice of computation)          wiring_registry, wiring_designer, representation_lens, ...
 Layer 4  HDL (SystemVerilog + Icarus + cocotb)     rtl/  (auto-emitted SV, testbenches, Arty A7 FPGA target)
 ```
@@ -67,6 +68,7 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 - **配線＝計算** — 乗算を*構造テンソル*（配線表）で記述。表を差し替えると同じゲートグラフが別の代数（複素・四元数・セデニオン・行列積・巡回畳み込み）になる。19パターンのレジストリ＋逆設計（欲しい行列ブロック→それを含む最小の群）。**配線正規形は三値 {−1,0,+1}**（total-arith-cuda の TBM_SPEC §1.5）——三値門番が bilinear 18/18 を恒久検査。線形段は加算と経路だけ（係数の丸めが存在しない）、`R` は真の乗算数の正直な請求書、gate 検査は全配線をカバー。表に構造的な 0 がある代数（双対数・Grassmann）は**死に積の刈り込み** `prune_uvw`（出力不変・刈る前は 25〜44% のゲートが無駄と実測）。**併合は意図的にしない**——順序無視の併合は反対称部（非可換の住処）を消し、可換代数でも壊れる（実測）。
 - **符号つき3値ブロック浮動** — 仮数の桁が3値 `{−1,0,+1}`（Avizienis 1961）で、16成分セデニオンが指数を1つ共有（MXFP/microscalingの符号つき3値版）。符号対称なので **符号反転＝`+`/`−`桁の入替＝純配線**（ゲートゼロ）。符号は仮数が運び、残る状態は「符号不明」1ビットだけ。
 - **ゲート→HDLを手写しゼロで** — SystemVerilogは監査済みPythonゲートグラフをトレースして*自動生成*。だからHDLは定義上同一のゲートグラフ。Icarus+cocotbでPython golden と照合。
+- **初等関数をゲートで**（`remez/`、v1.2.0）— exp / expm1 / log / sqrt / rsqrt は「指数バスでの縮小 × Remez 係数テープ（Estrin）× 片側出口」。ゲート版は整数だけの spec とフラグ込みで bit 一致し、spec は **float32 の有限な全入力を総当たり**（578 億回・違反 0・片側の最悪 1.0039 ulp・最近接は 0.5001 ulp 以内）。詳細は下段の `remez/` 節と `remez/README.md`。
 
 ### 再現方法
 
@@ -79,6 +81,8 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 - **Layer 3 配線**: `wiring_registry.py` `wiring_designer.py` `wiring_zoo.py` `wiring_patterns.py` `representation_lens.py` `bilinear_unit.py` `parallel_array.py`
 - **Layer 4 HDL**: `rtl/`（自動生成SV・cocotb TB・Arty A7一式）
 - **検証**: `interval_*.py` `numerical_test*.py` `stress_test*.py` `div_*.py`、`sed/`（セデニオン零因子ロジック）
+- **初等関数**: `remez/`（Remez 係数テープ × Estrin 積和 × 片側出口 — exp/expm1/log/sqrt/rsqrt をゲートまで、sin/cos は spec まで。float32 幅は全入力総当たり済み。`remez/README.md`）
+- **研究枝の記録**: `RESEARCH.md`（テーマごとの予想・測定・撤回）、`ternary_mark/`（三値語の「不明」桁と全域語）、`four_value/`（四値桁 {0,+1,−1,?} の半分選び定理と素子 2 つの差し替え）
 - **文書**: `SPEC.md` `GATE_CONDITIONS.md` `PROCESS.md` `FINDINGS.md`
 - **explorations/**: 意味論の作業ノート（探索的・検証済みコアではない）
 
@@ -148,3 +152,33 @@ final verification in exact integer arithmetic (zero-error claims about the quan
 problem): regular solve matches pinv at 1.4e-7 (W=24), zero divisor honestly SING with
 normal-equation residual 8e-8, and a width→accuracy dial (W=12→32: 6e-4→5e-8). The scalar
 1×1 case is `newton_recip.py` — this is its matrix completion.
+
+### `remez/` — elementary functions as gates (range reduction × Remez tape × one-sided exit)
+
+exp / expm1 / log / sqrt / rsqrt (and sin / cos at spec level) are defined as **range reduction on
+the exponent bus + a Remez polynomial evaluated by Estrin + a one-sided exit** — no Newton loop,
+no truncated series. The Remez fit runs offline (mpmath); the machine carries only the coefficient
+tape (K1: synthesis-time constants — a constant × signal is the wiring of the constant's set bits)
+and the reduction wiring. The error bound of each quantized tape is proved with `Fraction`
+arithmetic alone (`supnorm_exact`). Every function returns three modes (nearest / lower bound /
+upper bound) with the total-arithmetic flags; an integer-only spec (`funcs_spec.py`) is the
+reference, and the gate versions (`gate_funcs.py`, `gate_logroot.py`) are **bit-identical to it,
+flags included**: exp/expm1 on 535 adversarial points (f32 and f64), log/sqrt/rsqrt on 1461 (f32)
+/ 1485 (f64) points, 0 host asserts. Cost (f32 / f64 gates): exp+expm1 all six outputs 270,592 /
+687,173 (depth 791 / 863); log 338,660 / 1,095,224; sqrt 387,652 / 1,366,904; rsqrt 471,319 /
+1,536,011. An **exhaustive float32 sweep of the spec** (every finite float32 word: 4.28 × 10⁹ for
+exp/expm1, the 2.14 × 10⁹ positive words for the other five; truth = float64 with mpmath re-checks
+near the boundaries) — 1.93 × 10¹⁰ (function, input) pairs × 3 modes = 5.78 × 10¹⁰ checks — found
+**0 violations** of the one-sided bounds, 0 sign errors, 0 false exactness claims and 0 missed
+saturations; the worst one-sided error is 1.0005 ulp (exp, sin, cos), 1.0010 (log, expm1), 1.0009
+(sqrt), 1.0039 (rsqrt) against the claimed 1.0007 / 1.0015 / 1.0015 / 1.0015 / 1.0059, and the
+nearest mode stays within 0.50003–0.50010 ulp (claimed 0.5002–0.5020; 4.5 k – 65 k results per
+function are not the correctly rounded float32, which is never claimed). The worst point of every
+one of the seven functions is an argument whose result lands just below a power of two — the
+finer binade doubles the ulp count of the same relative error — and the reduction scheme
+(exponent bus, Payne–Hanek, odd/even tape) leaves no visible trace. Two disciplines came out of
+it (`GATE_CONDITIONS.md`): **R4** a boundary that exists only on the gate side needs a
+boundary-value unit test (two window bugs passed the 535-point differential test), and **R5**
+count the sticky premise ("dropped amount < 1 unit" fails when two things drop at once). Tables,
+reproduce commands and the list of withdrawn predictions: `remez/README.md`, `RESEARCH.md`
+(theme 3).

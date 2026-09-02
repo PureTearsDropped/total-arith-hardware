@@ -4,9 +4,11 @@ type: software
 title: "total-arith-hardware: total arithmetic down to logic gates and SystemVerilog"
 authors:
   - name: "PureTearsDropped"
+version: v1.2.0
+date-released: "2026-09-03"
 license: 0BSD
 repository-code: "https://github.com/PureTearsDropped/total-arith-hardware"
-abstract: "Total arithmetic lowered to AND/OR/NOT/XOR gate graphs with automatic SystemVerilog generation (the emitted RTL is the traced gate graph of the audited Python golden), block floating point, (U,V,W) bilinear units, series evaluation, and a gate-level pseudo-inverse solver. Verified with iverilog+cocotb against the golden models."
+abstract: "Total arithmetic lowered to AND/OR/NOT/XOR gate graphs with automatic SystemVerilog generation (the emitted RTL is the traced gate graph of the audited Python golden), block floating point, (U,V,W) bilinear units, series evaluation, a gate-level pseudo-inverse solver, and elementary functions (exp/expm1/log/sqrt/rsqrt) as range reduction + Remez coefficient tapes with one-sided exits, exhaustively swept at float32. Verified with iverilog+cocotb against the golden models."
 keywords:
   - "total arithmetic"
   - "FPGA"
@@ -14,3 +16,5 @@ keywords:
   - "logic gates"
   - "signed digit arithmetic"
   - "hardware verification"
+  - "elementary functions"
+  - "Remez"
