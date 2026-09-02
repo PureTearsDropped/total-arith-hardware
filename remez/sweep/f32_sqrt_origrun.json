@@ -1,0 +1,104 @@
+{
+ "config": "f32",
+ "group": "sqrt",
+ "quick": false,
+ "seconds": 5569.8,
+ "jobs": 1020,
+ "claims": {
+  "sqrt": {
+   "e": 35,
+   "near_ulp": 0.50048828125,
+   "side_ulp": 1.0009765625,
+   "rel_bound": 1.7894738631900826e-11
+  }
+ },
+ "stats": {
+  "sqrt/lo": {
+   "n": 2139095039,
+   "exact": 0,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    1.0005549248307943,
+    [
+     16325877,
+     -144
+    ]
+   ],
+   "max_cross": [
+    -1.0,
+    null
+   ],
+   "min_margin": [
+    0.00025949999690055847,
+    [
+     8878505,
+     -145
+    ]
+   ],
+   "n_not_cr": 0,
+   "viol": [],
+   "marg": []
+  },
+  "sqrt/hi": {
+   "n": 2139095039,
+   "exact": 0,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    1.0009369049221277,
+    [
+     15772023,
+     -144
+    ]
+   ],
+   "max_cross": [
+    1.0000000298023224,
+    [
+     16777214,
+     -144
+    ]
+   ],
+   "min_margin": [
+    0.000461554154753685,
+    [
+     8461114,
+     -145
+    ]
+   ],
+   "n_not_cr": 0,
+   "viol": [],
+   "marg": []
+  },
+  "sqrt/near": {
+   "n": 2139095039,
+   "exact": 0,
+   "sat": 0,
+   "collapse": 0,
+   "max_err": [
+    0.5000771675258875,
+    [
+     16294232,
+     -144
+    ]
+   ],
+   "max_cross": [
+    -1.0,
+    null
+   ],
+   "min_margin": [
+    Infinity,
+    null
+   ],
+   "n_not_cr": 65029,
+   "viol": [],
+   "marg": []
+  }
+ },
+ "confirmed_violations": {
+  "sqrt/lo": [],
+  "sqrt/hi": [],
+  "sqrt/near": []
+ },
+ "truth": "numpy float64 (glibc), rechecked with mpmath dps=80"
+}

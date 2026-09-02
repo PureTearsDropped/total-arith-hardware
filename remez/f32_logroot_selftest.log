@@ -1,0 +1,39 @@
+  sqrt: 節点の根（定義域内） 1 個
+  rsqrt: 節点の根（定義域内） 2 個
+  estrin_mux[f32] 73 例  不一致 0
+[f32] EW=13 XB=8 G=4 Win=24 Wk=40 Pc=56 deg log=13 sqrt=12 rsqrt=14
+  1 点 2.2s  raw=1430505  fold=1193671
+    start                     0
+    reduce                 1980
+    reduce:log             1855
+    estrin:log           298597
+    tail:log              25276
+    finish:log:lo          4341
+    finish:log:hi          4006
+    finish:log:near        2605
+    reduce:sqrt            1796
+    estrin:sqrt          372960
+    tail:sqrt               177
+    finish:sqrt:lo         4270
+    finish:sqrt:hi         3935
+    finish:sqrt:near       2534
+    reduce:rsqrt           1796
+    estrin:rsqrt         456666
+    tail:rsqrt              203
+    finish:rsqrt:lo        4224
+    finish:rsqrt:hi        3916
+    finish:rsqrt:near      2534
+    log   : fold   338660 (共通 1980 + 固有 336680)  depth 713
+    sqrt  : fold   387652 (共通 1980 + 固有 385672)  depth 610
+    rsqrt : fold   471319 (共通 1980 + 固有 469339)  depth 625
+    ('log', 'lo'): gate=((12631987, -33), (1, 0, 0)) spec=((12631987, -33), (1, 0, 0)) OK
+    ('log', 'hi'): gate=((12631988, -33), (0, 1, 0)) spec=((12631988, -33), (0, 1, 0)) OK
+    ('log', 'near'): gate=((12631987, -33), (1, 1, 0)) spec=((12631987, -33), (1, 1, 0)) OK
+    ('sqrt', 'lo'): gate=((8394778, -23), (1, 0, 0)) spec=((8394778, -23), (1, 0, 0)) OK
+    ('sqrt', 'hi'): gate=((8394779, -23), (0, 1, 0)) spec=((8394779, -23), (0, 1, 0)) OK
+    ('sqrt', 'near'): gate=((8394778, -23), (1, 1, 0)) spec=((8394778, -23), (1, 1, 0)) OK
+    ('rsqrt', 'lo'): gate=((16764884, -24), (1, 0, 0)) spec=((16764884, -24), (1, 0, 0)) OK
+    ('rsqrt', 'hi'): gate=((16764885, -24), (0, 1, 0)) spec=((16764885, -24), (0, 1, 0)) OK
+    ('rsqrt', 'near'): gate=((16764885, -24), (1, 1, 0)) spec=((16764885, -24), (1, 1, 0)) OK
+  1461 点 133.5s  不一致 0  assert 0
+PASS
