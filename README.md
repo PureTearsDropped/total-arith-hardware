@@ -74,6 +74,26 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 
 ---
 
+## Basis convention and independent cross-check / 基底規約と外部検証 (2026-09-06)
+
+**EN.** The multiplication tables here are the Cayley–Dickson algebras in the *XOR labelling*: `e_i · e_j = OMEGA[i,j] · e_{i XOR j}`,
+with `OMEGA` derived from the doubling `(a,b)(c,d) = (ac − d̄b, da + bc̄)`. `sed/crosscheck_external.py` checks them against
+things this repository did not write: an exact rational Cayley–Dickson product typed from the textbook definition (256/256 basis
+products, 1000/1000 random sedenion products), numpy-quaternion and Quaternions.jl (quaternions, 500/500 and 300/300), and
+convention-free invariants (ℍ associative; 𝕆 alternative, Moufang, norm-multiplicative, non-associative; sedenions flexible,
+power-associative, norm multiplicativity broken, and exactly 336 = 84×4 zero-divisor pairs `(e_a ± e_b)(e_c ± e_d) = 0`).
+**Octonions.jl labels the seven imaginary units differently** (its products are not `e_{i XOR j}`), so element-wise numbers are *not*
+interchangeable with it; the two tables are the same algebra, related by 1344 signed permutations (= |Aut(Fano)| × 8), e.g.
+`e_i → s_i f_{p(i)}` with `p = (0,1,2,3,4,7,6,5)`, `s = (+,−,+,−,−,−,−,−)`. Run with `JULIA=/path/to/julia` (Quaternions.jl,
+Octonions.jl installed) to include the Julia references; without it the exact reference and invariants still run.
+
+**JP.** ここの乗算表は Cayley–Dickson 代数の **XOR ラベル規約** `e_i · e_j = OMEGA[i,j] · e_{i XOR j}` で、`OMEGA` は倍加公式
+`(a,b)(c,d) = (ac − d̄b, da + bc̄)` から導出している。`sed/crosscheck_external.py` は、このリポジトリが書いていないもの
+（教科書の定義から別に書いた厳密有理数の CD 積、numpy-quaternion、Quaternions.jl、規約に依存しない不変量）と突き合わせる
+テストで、上記の結果は全部通過。**Octonions.jl は虚数単位の番号付けが違う**（積が `e_{i XOR j}` に落ちない）ので、要素ごとの
+数値はそのままでは互換でない。代数としては同一で、符号付き置換 1344 通り（Fano 平面の自己同型 168 × 符号 8）のどれかで写る。
+外部ライブラリと数値を突き合わせるときはこの基底変換を挟むこと。
+
 ## Related repositories
 
 The same two ideas — *total arithmetic* and *wiring = computation* — are implemented independently at other "heights":
