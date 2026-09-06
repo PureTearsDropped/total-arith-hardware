@@ -8,7 +8,7 @@ TOPLEVEL_LANG ?= verilog
 TOPLEVEL ?= sd_add2
 MODULE = test_sd_primitives
 
-GENERATED := sd_mult10 pe24 barrel18 blocknorm sed_comp bin_mult11 bin_mult11_ks bin_mac11
+GENERATED := sd_mult10 pe24 barrel18 blocknorm sed_comp bin_mult11 bin_mult11_ks bin_mac11 bin_blocknorm
 ifneq ($(filter $(TOPLEVEL),$(GENERATED)),)
 VERILOG_SOURCES = $(PWD)/../generated/$(TOPLEVEL).sv
 MODULE = test_generated

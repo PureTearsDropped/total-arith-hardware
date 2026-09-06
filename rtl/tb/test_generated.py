@@ -171,3 +171,28 @@ elif TOP == "bin_mac11":
                 acc0, acc1 = int(dut.c0.value), int(dut.c1.value)
             assert _u(acc0 + acc1, W) == want, f"bin_mac11 chain: {_u(acc0+acc1, W)} ≠ {want}"
         dut._log.info("bin_mac11: 60 本の 8 項積和、carry-save のまま累積して一致 ✓")
+
+
+elif TOP == "bin_blocknorm":
+    @cocotb.test()
+    async def bin_blocknorm_random(dut):
+        from gate_fast import block_normalize_g_fast
+        from gate_exponent import bus_const, bus_val
+        from gate_bilinear import to_sd, from_sd, new_counter
+        M, Win, W, Emax, EW = 4, 24, 6, 20, 12; Wc = Win + 2
+        for _ in range(120):
+            E0 = rnd.randint(0, 24)
+            vals = [rnd.choice([0, rnd.randint(-5, 5) * (10 ** rnd.randint(0, 6)), rnd.randint(-(1 << Win) + 1, (1 << Win) - 1)]) for _ in range(M)]
+            for i, v in enumerate(vals):
+                a = rnd.getrandbits(Wc); b = (v - a) % (1 << Wc)          # random carry-save split
+                getattr(dut, f"m{i}r0").value = a; getattr(dut, f"m{i}r1").value = b
+            dut.Ein.value = E0
+            await settle()
+            og, Eg, fg = block_normalize_g_fast([to_sd(v, Win) for v in vals], bus_const(E0, EW), W, Emax, new_counter())
+            assert int(dut.Eout.value) == bus_val([int(b) for b in Eg]) % (1 << EW)
+            for i in range(M):
+                sv = int(getattr(dut, f"o{i}m").value) * (-1 if int(getattr(dut, f"o{i}s").value) else 1)
+                assert sv == from_sd(og[i]), f"成分{i}: SV={sv} ≠ signed-digit golden {from_sd(og[i])}"
+                fl = int(getattr(dut, f"flag{i}").value); ge, le, _ = fg[i]
+                assert fl == (int(ge) | (int(le) << 1)), f"flag{i}: {fl} ≠ ge={ge},le={le}"
+        dut._log.info("bin_blocknorm: 120 ブロック、値・指数・旗が signed-digit の golden と一致 ✓")

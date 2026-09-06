@@ -144,6 +144,28 @@ SD golden = SD ゲート = 2 値の 2 行 = 2 値の解決済み = a·b、2〜16
 `is_zero_cs`（局所条件+AND 木）と `sign_cs`（最上位への桁上げだけをプレフィックスで）を追加し厳密に検証、零因子の積は
 全成分で解決せずに構造的零を報告する。未着手: 2 値版のブロック正規化器/BFP ユニット（切り替えるならそこが次）。
 
+### Binary block normaliser / 2 値ブロック正規化器 (2026-09-06)
+
+**EN.** `bin2_bfp.py` is the binary counterpart of `block_normalize_g_fast`: M carry-save inputs (two rows each) → sign +
+W-bit magnitude per component, shared exponent, the same `ge`/`le` flags by the same rules (truncation → ≥, exponent
+overflow → ±MAX ≥, collapse → ±MIN ≤, true zero unflagged). Magnitude is obtained by resolving `r0+r1` and, in parallel,
+`−(r0+r1)` (rows complemented + 2), selected by the sign — the bidirectional trick of `canonicalize_fast` on rows — so the
+truncation keeps the magnitude semantics of the flags (an arithmetic right shift of a negative two's-complement number
+would break "dropped bits ⇒ ≥"). Golden-vs-golden: 600 random blocks × 4 components with random carry-save splits,
+values, exponent and flags identical to the signed-digit normaliser; emitted `bin_blocknorm.sv` passes the cocotb test
+against the signed-digit golden (120 blocks). sky130, 1× cells, constants folded: `blocknorm` (signed digits) 9,643 cells /
+57,519 µm² / 21.5 ns, `bin_blocknorm` 7,587 cells / 46,168 µm² / 20.7 ns. With this the binary branch covers multiply,
+multiply-accumulate, resolve, zero/sign detection and normalisation; not yet: the fused sedenion component unit
+(`sed_comp`) and the exponent/ε machinery of `gate_bfp.py` on binary inputs.
+
+**JP.** `bin2_bfp.py` は `block_normalize_g_fast` の 2 値版。carry-save の入力 M 個 → 成分ごとに符号+W ビットの大きさ、
+共有指数、同じ規則の `ge`/`le` 旗。大きさは `r0+r1` と `−(r0+r1)`（行の補数+2）を並列に解いて符号で選ぶ（`canonicalize_fast`
+の双方向の手を行に適用）ので、切り捨ては大きさの切り捨てになり旗の意味（落とした ⇒ ≥）が保たれる（2 の補数の算術右
+シフトだと負数で破れる）。golden 同士: 乱数 600 ブロック × 4 成分（carry-save の分割も乱数）で値・指数・旗が SD 版と完全一致。
+生成した `bin_blocknorm.sv` は cocotb で SD golden と一致（120 ブロック）。sky130: SD 版 9,643 セル / 57,519 µm² / 21.5 ns、
+2 値版 7,587 / 46,168 / 20.7 ns。これで binary ブランチは乗算・積和・解決・零/符号判定・正規化まで。未着手は融合セデニオン
+成分ユニット（`sed_comp`）と `gate_bfp.py` の指数/ε 機構の 2 値化。
+
 ## Related repositories
 
 The same two ideas — *total arithmetic* and *wiring = computation* — are implemented independently at other "heights":

@@ -180,6 +180,22 @@ def gen_bin(K=11):
     emit_module(os.path.join(OUT, "bin_mac11.sv"), "bin_mac11", [("x", K), ("y", K), ("a0", W), ("a1", W)],
                 [("c0", W, wires(c0)), ("c1", W, wires(c1))])
 
+def gen_bin_blocknorm(M=4, Win=24, W=6, Emax=20, EW=12):
+    """binary block normaliser (bin2_bfp.py): M carry-save inputs (two rows of Win+2 bits) -> (sign, W-bit magnitude), flags, Eout"""
+    from bin2_bfp import block_normalize_bin
+    Wc = Win + 2; reset()
+    rows = [(in_bus(f"m{i}r0", Wc), in_bus(f"m{i}r1", Wc)) for i in range(M)]
+    Ebus = in_bus("Ein", EW)
+    out, E_fin, flags = block_normalize_bin(rows, Ebus, W, Emax, null_st())
+    def w(x): return x if isinstance(x, T) else T._const(int(x))
+    inputs = [(f"m{i}r{r}", Wc) for i in range(M) for r in (0, 1)] + [("Ein", EW)]
+    outputs = []
+    for i in range(M):
+        s, m = out[i]; ge, le, _ = flags[i]
+        outputs += [(f"o{i}s", 1, [w(s)]), (f"o{i}m", W, [w(b) for b in m]), (f"flag{i}", 2, [w(ge), w(le)])]
+    outputs.append(("Eout", EW, [w(x) for x in E_fin]))
+    emit_module(os.path.join(OUT, "bin_blocknorm.sv"), "bin_blocknorm", inputs, outputs)
+
 if __name__ == "__main__":
     print("SV 自動生成（監査済み Python → 同一ゲートグラフ）:")
     wz = gen_sd_mult()
@@ -188,4 +204,5 @@ if __name__ == "__main__":
     gen_blocknorm()
     ws = gen_sed_comp()
     gen_bin()
+    gen_bin_blocknorm()
     print(f"  （sd_mult10 出力幅 {wz}・sed_comp 出力幅 {ws}）")
