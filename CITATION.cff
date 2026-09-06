@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below (see also the Research Use and Reproducibility section of the README: please record the commit ID and any arithmetic settings that affect results)."
+type: software
+title: "total-arith-hardware: total arithmetic down to logic gates and SystemVerilog"
+authors:
+  - name: "PureTearsDropped"
+version: v1.3.0-binary
+date-released: "2026-09-06"
+license: 0BSD
+repository-code: "https://github.com/PureTearsDropped/total-arith-hardware"
+abstract: "Total arithmetic lowered to AND/OR/NOT/XOR gate graphs with automatic SystemVerilog generation (the emitted RTL is the traced gate graph of the audited Python golden), block floating point, (U,V,W) bilinear units, series evaluation, a gate-level pseudo-inverse solver, and elementary functions (exp/expm1/log/sqrt/rsqrt) as range reduction + Remez coefficient tapes with one-sided exits, exhaustively swept at float32. Verified with iverilog+cocotb against the golden models. Branch release v1.3.0-binary (not merged into main): the two's-complement carry-save counterpart of the signed-digit datapath (Baugh-Wooley partial products, Dadda reduction to two rows, carry-save multiply-accumulate, one Kogge-Stone resolve at the boundary, carry-free zero and sign detection, and a block normaliser with the same ge/le flags), shown to produce identical values and flags to the signed-digit circuits (scalar, MAC chains, sedenion products, normalisation), emitted to SystemVerilog and checked with cocotb, at 1/7 of the area of sd_mult10 on sky130; plus an independent cross-check of the quaternion/octonion/sedenion tables against numpy-quaternion, Quaternions.jl, Octonions.jl and an exact Cayley-Dickson construction, documenting the XOR basis convention and its signed-permutation map to Octonions.jl."
+keywords:
+  - "total arithmetic"
+  - "FPGA"
+  - "SystemVerilog"
+  - "logic gates"
+  - "signed digit arithmetic"
+  - "hardware verification"
+  - "elementary functions"
+  - "Remez"
+  - "carry-save arithmetic"
+  - "Cayley-Dickson"
