@@ -20,3 +20,10 @@ keywords:
   - "Remez"
   - "carry-save arithmetic"
   - "Cayley-Dickson"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21489944"
+    description: "Zenodo concept DOI (resolves to the latest version)"
+  - type: doi
+    value: "10.5281/zenodo.22541698"
+    description: "Zenodo DOI of the branch release v1.3.0-binary"
