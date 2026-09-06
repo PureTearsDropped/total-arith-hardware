@@ -121,6 +121,29 @@ structural-zero flags carried in the digits). This branch is the measurement, no
 面積 7 分の 1 で得られる。signed-digit が買っているのは表現（配線だけの符号反転・対称な桁・符号不明や構造的零の旗を桁で運ぶ）。
 このブランチは測定であって、切り替えの決定ではない。
 
+### Same results as the signed-digit datapath? / SD 版と同じ結果を出すか (2026-09-06)
+
+**EN.** `bin_vs_sd_equiv.py` feeds the same integers to both goldens: scalar products agree on all 225 edge
+combinations and 20 000 random pairs (signed-digit golden = signed-digit gate graph = binary rows = binary resolved
+= a·b), multiply-accumulate chains of 2–16 terms agree, and the full 16-component sedenion product (OMEGA signs
+folded with `neg_cs`) agrees with `sedenion_mult_sd2` and `ref_mult` on 200 random pairs.
+*Flags.* The datapath flags are value-level: products never raise sign-unknown, exact inputs get flags only from
+normalisation (truncation → ≥, overflow → ±MAX ≥, collapse → ±MIN ≤), flagged inputs propagate intervals — none of
+that depends on the digit encoding. What does depend on it is *reading* the value: canonical signed digits show
+"true zero" and the sign in the digits, carry-save rows do not (r0 + r1 ≡ 0 with both rows nonzero). The branch adds
+carry-free primitives for exactly that — `is_zero_cs` (Cortadella–Llabería local test + AND tree) and `sign_cs`
+(prefix carry into the MSB only), both exact (W = 4 exhaustive, W = 22 random); zero-divisor products report
+structural zero on every component without resolving. Not on this branch: a binary version of the block normaliser /
+BFP unit (`blocknorm`, `gate_bfp.py`) — that is the next step if the switch is made.
+
+**JP.** `bin_vs_sd_equiv.py` で同じ整数を両方の golden に流した。スカラー積は端の全組合せ 225 と乱数 20,000 で
+SD golden = SD ゲート = 2 値の 2 行 = 2 値の解決済み = a·b、2〜16 項の積和連鎖も一致、セデニオン積 16 成分（OMEGA の
+符号は `neg_cs` で畳む）も `sedenion_mult_sd2` と `ref_mult` に 200 組で一致。**旗**は値の上の論理（積は符号不明を
+立てない・厳密入力の旗は正規化のみ・旗付き入力は区間伝播）なので桁の符号化に依存しない。依存するのは「値を読む」
+所で、正準 SD なら桁を見れば真の 0 と符号が分かるが carry-save の 2 行では分からない。そのための桁上げ無しの原始回路
+`is_zero_cs`（局所条件+AND 木）と `sign_cs`（最上位への桁上げだけをプレフィックスで）を追加し厳密に検証、零因子の積は
+全成分で解決せずに構造的零を報告する。未着手: 2 値版のブロック正規化器/BFP ユニット（切り替えるならそこが次）。
+
 ## Related repositories
 
 The same two ideas — *total arithmetic* and *wiring = computation* — are implemented independently at other "heights":

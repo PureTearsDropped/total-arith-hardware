@@ -151,3 +151,51 @@ def self_test(seed=20260906):
 
 if __name__ == "__main__":
     self_test()
+
+# ------------------------------------------------------------------ flag primitives on carry-save numbers
+# In canonical signed digits "is the value zero?" and "what is its sign?" are visible in the digits; in carry-save
+# form they are not (r0 + r1 ≡ 0 mod 2^W with both rows nonzero).  These two primitives answer them WITHOUT a
+# carry-propagate adder.
+
+def is_zero_cs(rows, st):
+    """r0 + r1 ≡ 0 (mod 2^W)  ⇔  z_0 = 0 and z_i = (r0_{i-1} ∨ r1_{i-1}) for i ≥ 1, where z_i = r0_i ⊕ r1_i
+    (Cortadella–Llabería 1992): all conditions are local, one AND tree.  Depth O(log W)."""
+    r0, r1 = rows; W = len(r0)
+    z = [XOR(a, b, st) for a, b in zip(r0, r1)]
+    ok = [NOT(z[0], st)]
+    for i in range(1, W):
+        c = OR(r0[i - 1], r1[i - 1], st)
+        ok.append(NOT(XOR(z[i], c, st), st))       # z_i == c_i
+    while len(ok) > 1:                              # AND tree
+        ok = [AND(ok[i], ok[i + 1], st) if i + 1 < len(ok) else ok[i] for i in range(0, len(ok), 2)]
+    return ok[0]
+
+def sign_cs(rows, st):
+    """sign bit (MSB) of r0 + r1 mod 2^W without computing the sum: MSB = g/p prefix carry into the top bit,
+    xor'ed with the top propagate.  Depth O(log W), about a third of a full Kogge–Stone."""
+    r0, r1 = rows; W = len(r0)
+    g = [AND(a, b, st) for a, b in zip(r0, r1)]
+    p = [XOR(a, b, st) for a, b in zip(r0, r1)]
+    G = list(g); P = list(p); k = 1
+    while k < W - 1:                                # prefix over bits 0..W-2 only (carry into the MSB)
+        G2 = list(G); P2 = list(P)
+        for i in range(W - 2, k - 1, -1):
+            G2[i] = OR(G[i], AND(P[i], G[i - k], st), st); P2[i] = AND(P[i], P[i - k], st)
+        G, P = G2, P2; k <<= 1
+    carry_in_msb = G[W - 2] if W >= 2 else 0
+    return XOR(p[W - 1], carry_in_msb, st)
+
+def _selftest_flags(seed=7):
+    rng = random.Random(seed)
+    # exhaustive for W = 4 (all row pairs), random for W = 22
+    for W, cases in ((4, [(a, b) for a in range(16) for b in range(16)]),
+                     (22, [(rng.getrandbits(22), rng.getrandbits(22)) for _ in range(20000)] + [(0, 0), ((1 << 22) - 1, 1), (1 << 21, 1 << 21)])):
+        for a, b in cases:
+            r0 = [(a >> i) & 1 for i in range(W)]; r1 = [(b >> i) & 1 for i in range(W)]; st = new_counter()
+            v = (a + b) % (1 << W)
+            assert is_zero_cs((r0, r1), st) == (1 if v == 0 else 0), (W, a, b)
+            assert sign_cs((r0, r1), st) == ((v >> (W - 1)) & 1), (W, a, b)
+    print("bin2_gates flag primitives: is_zero_cs / sign_cs exact (W=4 exhaustive, W=22 random 20003) ✓")
+
+if __name__ == "__main__":
+    _selftest_flags()
