@@ -34,7 +34,7 @@ python3 -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
 ```
 
 - **Pure-Python / gate self-tests** — no special hardware. Reproduced here: **all 17 green, zero violations.**
-- **HDL (virtual hardware / RTL simulation)** — requires `iverilog` (or `verilator`) + `cocotb`. `./verify_hdl.sh` runs every SystemVerilog module as *simulated hardware* (no FPGA) and checks it against the Python golden. Reproduced here with **iverilog 12.0 + cocotb 2.0.1: all 8 modules green** — `gate9` `compress3` `sd_add2` `sd_mult10` `pe24` `barrel18` `blocknorm` `sed_comp` (`TESTS=1 PASS=1 FAIL=0` each). Note: clear `rtl/tb/sim_build` between toplevels (`verify_hdl.sh` does this) — a stale build silently reuses the previous module.
+- **HDL (virtual hardware / RTL simulation)** — requires `iverilog` (or `verilator`) + `cocotb`. `./verify_hdl.sh` runs every SystemVerilog module as *simulated hardware* (no FPGA) and checks it against the Python golden. Reproduced here with **iverilog 12.0 + cocotb 2.0.1: all 8 modules green** — `gate9` `compress3` `sd_add2` `sd_mult10` `pe24` `barrel18` `blocknorm` `sed_comp` (`TESTS=1 PASS=1 FAIL=0` each; on branch `binary` the list is 15 modules, all green). Note: clear `rtl/tb/sim_build` between toplevels (`verify_hdl.sh` does this) — a stale build silently reuses the previous module.
 - **FPGA** — requires Vivado. `cd rtl/fpga && vivado -mode batch -source build.tcl` targets an Arty A7-100T (UART ⇔ `sd_add2`). Simulated at the same protocol as the board; synthesis is left to the user.
 
 ### Design contract (see `GATE_CONDITIONS.md`)
@@ -155,16 +155,70 @@ would break "dropped bits ⇒ ≥"). Golden-vs-golden: 600 random blocks × 4 co
 values, exponent and flags identical to the signed-digit normaliser; emitted `bin_blocknorm.sv` passes the cocotb test
 against the signed-digit golden (120 blocks). sky130, 1× cells, constants folded: `blocknorm` (signed digits) 9,643 cells /
 57,519 µm² / 21.5 ns, `bin_blocknorm` 7,587 cells / 46,168 µm² / 20.7 ns. With this the binary branch covers multiply,
-multiply-accumulate, resolve, zero/sign detection and normalisation; not yet: the fused sedenion component unit
-(`sed_comp`) and the exponent/ε machinery of `gate_bfp.py` on binary inputs.
+multiply-accumulate, resolve, zero/sign detection and normalisation; the fused sedenion component unit and the
+block-floating operation layer follow in the next section.
 
 **JP.** `bin2_bfp.py` は `block_normalize_g_fast` の 2 値版。carry-save の入力 M 個 → 成分ごとに符号+W ビットの大きさ、
 共有指数、同じ規則の `ge`/`le` 旗。大きさは `r0+r1` と `−(r0+r1)`（行の補数+2）を並列に解いて符号で選ぶ（`canonicalize_fast`
 の双方向の手を行に適用）ので、切り捨ては大きさの切り捨てになり旗の意味（落とした ⇒ ≥）が保たれる（2 の補数の算術右
 シフトだと負数で破れる）。golden 同士: 乱数 600 ブロック × 4 成分（carry-save の分割も乱数）で値・指数・旗が SD 版と完全一致。
 生成した `bin_blocknorm.sv` は cocotb で SD golden と一致（120 ブロック）。sky130: SD 版 9,643 セル / 57,519 µm² / 21.5 ns、
-2 値版 7,587 / 46,168 / 20.7 ns。これで binary ブランチは乗算・積和・解決・零/符号判定・正規化まで。未着手は融合セデニオン
-成分ユニット（`sed_comp`）と `gate_bfp.py` の指数/ε 機構の 2 値化。
+2 値版 7,587 / 46,168 / 20.7 ns。これで binary ブランチは乗算・積和・解決・零/符号判定・正規化まで。融合セデニオン成分
+ユニットとブロック浮動の演算層は次節。
+
+### Fused sedenion component and the block-floating layer / 融合セデニオン成分とブロック浮動層 (2026-09-06)
+
+**EN.** `bin2_sed.py` is the binary `group_component`: component k = Σᵢ σ(i, i⊕k)·aᵢ·b_{i⊕k} as **one Dadda tree over
+all 16 Baugh–Wooley partial-product sets**. A σ = −1 product is negated as partial products, not as a number:
+−Σ 2^w t_w = Σ 2^w (1 − t_w) − Σ 2^w, so the complement folds into the Baugh–Wooley inversion parity (no gate) and the
+constants of all 16 products fold into one constant word. The Baugh–Wooley constant is used as the exact integer
+−(2^(W−1) − 2^(Wx−1) − 2^(Wy−1)), not reduced mod 2^W, so nothing is sign-extended inside the wider accumulator (the
+rows of a carry-save number are not sign-extendable). Golden: 200 random sedenion pairs against `ref_mult`, rows and
+resolved value equal; `bin_sed_comp.sv` (K = 6, 16 + 16 inputs, two rows of 17 bits) passes cocotb (84 cases). sky130,
+1× cells, constants folded: `sed_comp` (signed digits) 22,226 cells / 132,700 µm² / 10.8 ns → `bin_sed_comp`
+3,648 / 24,921 / 5.2 ns.
+
+`bin2_bfops.py` is the binary `gate_bfp.py`: block-floating numbers with carry-save mantissas (`BFc` = two rows at
+width Wc, host-side exponent), `bfc_mul` / `bfc_add` / `bfc_sub` / `bfc_lincomb` / `bfc_bilinear_unit` / `unit_width`,
+plus `bfc_from_sm` to re-enter from the normaliser's (sign, magnitude). One contract differs from the signed-digit
+layer and is the honest cost of the representation: **the block width Wc is fixed up front** (every row lives at Wc,
+arithmetic is exact mod 2^Wc, the value width is tracked statically), because a carry-save number cannot be widened
+later — the signed-digit layer just grows its digit lists. Exponent alignment is wiring at fixed Wc (prepend zeros,
+drop top bits). Multiplication of redundant operands has two modes, both measured: `resolve` (one Kogge–Stone per
+redundant operand, then Wv×Wv Baugh–Wooley) and `redundant` (carry-free: the four cross products of the unsigned
+row patterns mod 2^Wc into one tree — no carry chain anywhere, but ≈ 4·Wc²/2 AND gates). Constant coefficients
+never multiply: CSD digits of the constant applied to the rows (shift = wiring, negative digit = complemented rows
++ constant). Golden vs golden against `gate_bfp` (framing, products in both modes, sums/differences/redundant chains,
+lincombs with constants, then Strassen 2×2 / complex / quaternion units **followed by the two normalisers**): values,
+exponent and ge/le flags all equal (2,000–5,000 cases per item, 300–400 blocks per unit). Gate counts of the whole
+quaternion unit (symbolic): binary resolve 9,931 / depth 29, binary redundant 24,848 / 29. Emitted `quat_unit.sv`
+(signed-digit fused, 8 digits, ±255) and `bin_quat_unit.sv` (binary block-floating unit, 9 bits, ±255) both pass
+cocotb (124 cases × 4 components); sky130: 43,192 cells / 255,235 µm² / 9.2 ns → 11,760 / 81,353 / 4.8 ns.
+As before this is a measurement, not a decision: the signed-digit layer keeps negation as wiring and grows widths
+freely; the binary layer needs Wc declared and a resolve (or four cross products) to multiply redundant operands.
+
+**JP.** `bin2_sed.py` は `group_component` の 2 値版: 成分 k = Σᵢ σ(i, i⊕k)·aᵢ·b_{i⊕k} を **16 組の Baugh–Wooley 部分積を
+まとめて 1 本の Dadda 木**で畳む。σ = −1 の積は数としてでなく部分積のまま反転する（−Σ 2^w t_w = Σ 2^w (1 − t_w) − Σ 2^w）
+ので、補数は Baugh–Wooley の反転パリティに吸収され（ゲート 0）、16 積分の定数は 1 語に畳まれる。Baugh–Wooley の定数は
+mod 2^W に落とさず厳密な整数 −(2^(W−1) − 2^(Wx−1) − 2^(Wy−1)) として使うため、広い累積器の中で符号拡張が不要
+（carry-save の行は符号拡張できない）。golden: 乱数 200 組で `ref_mult` と行・解決値とも一致、`bin_sed_comp.sv`
+（K = 6、入力 16+16、出力 17 ビット 2 行）は cocotb 84 ケース PASS。sky130（1× セル・定数畳み込み後）: SD 版 `sed_comp`
+22,226 セル / 132,700 µm² / 10.8 ns → `bin_sed_comp` 3,648 / 24,921 / 5.2 ns。
+
+`bin2_bfops.py` は `gate_bfp.py` の 2 値版: carry-save 仮数のブロック浮動数（`BFc` = 幅 Wc の 2 行と host 側指数）、
+`bfc_mul` / `bfc_add` / `bfc_sub` / `bfc_lincomb` / `bfc_bilinear_unit` / `unit_width`、正規化器の（符号, 大きさ）から
+戻る `bfc_from_sm`。SD 層と違う契約が一つあり、それが表現の正直な代価: **ブロック幅 Wc を最初に固定する**（全部の行を
+Wc で持ち mod 2^Wc で厳密、値の幅は静的に追跡）。carry-save の数は後から広げられない（SD 層は桁列を伸ばすだけ）ため。
+指数の整列は固定幅での配線（下に 0 を足し上を落とす）。冗長な被演算数どうしの乗算は 2 方式を実装して両方測った:
+`resolve`（冗長側を Kogge–Stone 1 本で解決してから Wv×Wv の Baugh–Wooley）と `redundant`（carry-free: unsigned の
+行パターン 4 交差積を mod 2^Wc で 1 本の木へ。桁上げ鎖はどこにも無いが AND が ≈ 4·Wc²/2）。定数係数は乗算しない
+（定数の CSD 桁を行に適用: シフト = 配線、負桁 = 行の補数 + 定数）。`gate_bfp` との golden 同士の照合（表現、両方式の積、
+和/差/冗長連鎖、定数付き線形結合、Strassen 2×2 / 複素 / 四元数ユニット **→ 両方の正規化器**）: 値・指数・ge/le 旗が全部
+一致（項目ごと 2,000〜5,000 ケース、ユニットは 300〜400 ブロック）。四元数ユニット全体のゲート数（記号実行）: 2 値
+resolve 9,931 / 深さ 29、redundant 24,848 / 29。生成した `quat_unit.sv`（SD 融合、8 桁 ±255）と `bin_quat_unit.sv`
+（2 値ブロック浮動ユニット、9 ビット ±255）は cocotb 124 ケース × 4 成分 PASS、sky130: 43,192 セル / 255,235 µm² /
+9.2 ns → 11,760 / 81,353 / 4.8 ns。これも測定であって決定ではない: SD 層は符号反転が配線のままで幅も自由に伸びる、
+2 値層は Wc の宣言と、冗長どうしの乗算に解決（か 4 交差積）が要る。
 
 ## Related repositories
 

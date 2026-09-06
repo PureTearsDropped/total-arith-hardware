@@ -196,3 +196,48 @@ elif TOP == "bin_blocknorm":
                 fl = int(getattr(dut, f"flag{i}").value); ge, le, _ = fg[i]
                 assert fl == (int(ge) | (int(le) << 1)), f"flag{i}: {fl} ≠ ge={ge},le={le}"
         dut._log.info("bin_blocknorm: 120 ブロック、値・指数・旗が signed-digit の golden と一致 ✓")
+
+elif TOP == "bin_sed_comp":
+    @cocotb.test()
+    async def bin_sed_comp_random(dut):
+        from nd_algebra import cd_omega, ref_mult_M
+        M, K, k = 16, 6, 1; Wa = 2 * K + 5; lim = 1 << (K - 1)
+        OM = cd_omega(M)
+        cases = [([lim - 1] * M, [lim - 1] * M), ([-lim] * M, [-lim] * M), ([-lim] * M, [lim - 1] * M), ([0] * M, [0] * M)]
+        cases += [([rnd.randrange(-lim, lim) for _ in range(M)], [rnd.randrange(-lim, lim) for _ in range(M)]) for _ in range(80)]
+        for a, b in cases:
+            for i in range(M):
+                getattr(dut, f"a{i}").value = _s(a[i], K); getattr(dut, f"b{i}").value = _s(b[i], K)
+            await settle()
+            got = _u(int(dut.z0.value) + int(dut.z1.value), Wa)
+            ref = ref_mult_M(a, b, OM, M)[k]
+            assert got == ref, f"bin_sed_comp: SV rows {got} ≠ 参照={ref}"
+        dut._log.info("bin_sed_comp: 84 ケース（端値 4 + 乱数 80）、2 行の和 == セデニオン積成分 ✓")
+
+elif TOP in ("quat_unit", "bin_quat_unit"):
+    @cocotb.test()
+    async def quat_unit_random(dut):
+        from nd_algebra import cd_omega, ref_mult_M
+        from gate_bilinear import to_sd
+        M = 4; K = 8 if TOP == "quat_unit" else 9; lim = 1 << 8; OM = cd_omega(M)   # both units: inputs in ±255
+        Wc = len(dut.z0r0.value) if TOP == "bin_quat_unit" else None
+        Wz = len(dut.z0P.value) if TOP == "quat_unit" else None
+        cases = [([lim - 1] * M, [lim - 1] * M), ([1 - lim] * M, [1 - lim] * M), ([1 - lim] * M, [lim - 1] * M), ([0] * M, [0] * M)]
+        cases += [([rnd.randrange(1 - lim, lim) for _ in range(M)], [rnd.randrange(1 - lim, lim) for _ in range(M)]) for _ in range(120)]
+        for a, b in cases:
+            if TOP == "quat_unit":
+                for i in range(M):
+                    P, N = to_rails(a[i], K); getattr(dut, f"a{i}P").value = P; getattr(dut, f"a{i}N").value = N
+                    P, N = to_rails(b[i], K); getattr(dut, f"b{i}P").value = P; getattr(dut, f"b{i}N").value = N
+            else:
+                for i in range(M):
+                    getattr(dut, f"a{i}").value = _s(a[i], K); getattr(dut, f"b{i}").value = _s(b[i], K)
+            await settle()
+            ref = ref_mult_M(a, b, OM, M)
+            for k in range(M):
+                if TOP == "quat_unit":
+                    got = rails_val(int(getattr(dut, f"z{k}P").value), int(getattr(dut, f"z{k}N").value), Wz)
+                else:
+                    got = _u(int(getattr(dut, f"z{k}r0").value) + int(getattr(dut, f"z{k}r1").value), Wc)
+                assert got == ref[k], f"{TOP}: component {k} = {got} ≠ {ref[k]}"
+        dut._log.info(f"{TOP}: 124 ケース × 4 成分 == 四元数積 ✓")

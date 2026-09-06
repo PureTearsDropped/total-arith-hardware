@@ -12,6 +12,8 @@
     barrel18       : 18桁 可変右シフト（barrel_shift_right_digits）
     blocknorm      : M=4, 24桁, W=6 ブロック正規化（block_normalize_g_fast・フラグ/ε/飽和込み）
     sed_comp       : セデニオン積の 成分 k=1（group_component・16積の 融合MAC・符号=配線）
+    bin_*          : 2 値 carry-save 版（bin2_gates / bin2_bfp / bin2_sed / bin2_bfops）
+    quat_unit / bin_quat_unit : 四元数積 4 成分（SD 融合 ×4 ／ 2 値ブロック浮動ユニット）
 """
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -196,6 +198,52 @@ def gen_bin_blocknorm(M=4, Win=24, W=6, Emax=20, EW=12):
     outputs.append(("Eout", EW, [w(x) for x in E_fin]))
     emit_module(os.path.join(OUT, "bin_blocknorm.sv"), "bin_blocknorm", inputs, outputs)
 
+def gen_bin_sed_comp(M=16, K=6, k=1):
+    """binary fused sedenion component (bin2_sed.py): 16 two's complement K-bit digit pairs -> two carry-save rows
+    of Wa = 2K+5 bits (one Dadda tree over all 16 Baugh–Wooley partial-product sets; σ = −1 folded into the
+    inversion parity plus one constant word)."""
+    from bin2_sed import sed_comp_cs
+    from nd_algebra import cd_omega
+    OM = cd_omega(M); OMl = [[int(OM[i, j]) for j in range(M)] for i in range(M)]
+    Wa = 2 * K + 5; reset()
+    a = [in_bus(f"a{i}", K) for i in range(M)]; b = [in_bus(f"b{i}", K) for i in range(M)]
+    r0, r1 = sed_comp_cs(a, b, OMl, M, k, Wa, null_st())
+    def w(x): return x if isinstance(x, T) else T._const(int(x))
+    inputs = [(f"a{i}", K) for i in range(M)] + [(f"b{i}", K) for i in range(M)]
+    emit_module(os.path.join(OUT, "bin_sed_comp.sv"), "bin_sed_comp", inputs,
+                [("z0", Wa, [w(x) for x in r0]), ("z1", Wa, [w(x) for x in r1])])
+    return Wa
+
+def gen_quat_units(M=4, K=8, Kb=9):
+    """quaternion product, all 4 components, two ways: signed-digit fused (group_component ×4, K digits) and the binary
+    block-floating unit of bin2_bfops (bfc_bilinear_unit on the group's (U,V,W), Kb-bit two's complement inputs,
+    carry-save outputs at the unit's block width Wc).  Kb = K+1 gives both the same input range ±(2^K − 1)."""
+    from mul_fused import group_component
+    from nd_algebra import cd_omega
+    from bin2_bfops import bfc_bilinear_unit, bfc_from_bits, unit_width
+    OM = cd_omega(M); OMl = [[int(OM[i, j]) for j in range(M)] for i in range(M)]
+    reset()
+    a = [in_digits(f"a{i}P", f"a{i}N", K) for i in range(M)]; b = [in_digits(f"b{i}P", f"b{i}N", K) for i in range(M)]
+    outputs = []
+    for k in range(M):
+        Z = group_component(a, b, OMl, M, k, null_st()); P, N = rails(Z)
+        outputs += [(f"z{k}P", len(Z), P), (f"z{k}N", len(Z), N)]
+    inputs = [(f"a{i}{r}", K) for i in range(M) for r in ("P", "N")] + [(f"b{i}{r}", K) for i in range(M) for r in ("P", "N")]
+    emit_module(os.path.join(OUT, "quat_unit.sv"), "quat_unit", inputs, outputs)
+    wz = len(Z)
+    U = [[1 if c == i else 0 for c in range(M)] for i in range(M) for j in range(M)]
+    V = [[1 if c == j else 0 for c in range(M)] for i in range(M) for j in range(M)]
+    Wm = [[OMl[i][j] if (i ^ j) == k else 0 for i in range(M) for j in range(M)] for k in range(M)]
+    Wc = unit_width(Kb, U, V, Wm); reset()
+    ba = [bfc_from_bits(in_bus(f"a{i}", Kb), Wc) for i in range(M)]; bb = [bfc_from_bits(in_bus(f"b{i}", Kb), Wc) for i in range(M)]
+    outs = bfc_bilinear_unit(U, V, Wm, ba, bb, null_st())
+    def w(x): return x if isinstance(x, T) else T._const(int(x))
+    outputs = []
+    for k, o in enumerate(outs):
+        outputs += [(f"z{k}r0", Wc, [w(x) for x in o.rows[0]]), (f"z{k}r1", Wc, [w(x) for x in o.rows[1]])]
+    emit_module(os.path.join(OUT, "bin_quat_unit.sv"), "bin_quat_unit", [(f"a{i}", Kb) for i in range(M)] + [(f"b{i}", Kb) for i in range(M)], outputs)
+    return wz, Wc
+
 if __name__ == "__main__":
     print("SV 自動生成（監査済み Python → 同一ゲートグラフ）:")
     wz = gen_sd_mult()
@@ -205,4 +253,6 @@ if __name__ == "__main__":
     ws = gen_sed_comp()
     gen_bin()
     gen_bin_blocknorm()
+    gen_bin_sed_comp()
+    gen_quat_units()
     print(f"  （sd_mult10 出力幅 {wz}・sed_comp 出力幅 {ws}）")
