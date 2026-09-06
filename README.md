@@ -94,6 +94,33 @@ Octonions.jl installed) to include the Julia references; without it the exact re
 数値はそのままでは互換でない。代数としては同一で、符号付き置換 1344 通り（Fano 平面の自己同型 168 × 符号 8）のどれかで写る。
 外部ライブラリと数値を突き合わせるときはこの基底変換を挟むこと。
 
+## Branch `binary`: the {0,1} carry-save counterpart / 2 値 carry-save 版 (2026-09-06)
+
+**EN.** `bin2_gates.py` is the two's-complement twin of the signed-digit rails, written in the same gate style
+(works on ints for the golden model, on `gate_fast.B` for depth, on `rtl/emit_sv.T` for SystemVerilog): Baugh–Wooley
+partial products → Dadda reduction to **two rows** (carry-save, no carry propagation) → `add_cs` / `mac_cs` keep
+accumulating in that form → one Kogge–Stone `resolve` at the boundary. Emitted and checked against the golden with
+cocotb (`bin_mult11`, `bin_mult11_ks`, `bin_mac11`: `./verify_hdl.sh`). Measured on sky130 with the emitted gates
+mapped 1:1 to 1× cells (cell-level STA, constants folded), same numeric range (±1024 vs the 10-digit ±1023):
+
+| module | output | cells | area µm² | delay |
+|---|---|--:|--:|--:|
+| `bin_mult11` | carry-save, two rows | 563 | 3 895 | 2.6 ns |
+| `bin_mult11_ks` | two's complement | 847 | 5 767 | 4.3 ns |
+| `bin_mac11` (x·y + carry-save accumulator) | carry-save, two rows | 792 | 5 540 | 3.5 ns |
+| `sd_mult10` (signed digits, canonical out) | canonical (p,n) digits | 4 742 | 27 659 | 7.3 ns |
+
+Carry-free accumulation is not a property of signed digits; binary carry-save has it at one seventh of the area.
+What the signed-digit rails buy is representational (negation by wiring, symmetric digits, the sign-unknown /
+structural-zero flags carried in the digits). This branch is the measurement, not a decision to switch.
+
+**JP.** `bin2_gates.py` は signed-digit レールの 2 の補数版で、同じゲート流儀（golden は int、深さは `gate_fast.B`、SV は
+`rtl/emit_sv.T` で追跡）。Baugh–Wooley の部分積 → Dadda で **2 行**（carry-save、桁上げ伝播なし）→ `add_cs` / `mac_cs` は
+その形のまま累積 → 境界で 1 回だけ Kogge–Stone の `resolve`。生成した SV は cocotb で golden と照合済み。上の表は同じ数の
+範囲での sky130 実測（セル遅延、定数畳み込み後）。桁上げ無しの累積は signed-digit の専売ではなく、2 値の carry-save でも
+面積 7 分の 1 で得られる。signed-digit が買っているのは表現（配線だけの符号反転・対称な桁・符号不明や構造的零の旗を桁で運ぶ）。
+このブランチは測定であって、切り替えの決定ではない。
+
 ## Related repositories
 
 The same two ideas — *total arithmetic* and *wiring = computation* — are implemented independently at other "heights":

@@ -127,3 +127,47 @@ elif TOP == "sed_comp":
             ref = ref_mult_M(a, b, OM, M)[k]
             assert got == ref, f"sed_comp: SV={got} ≠ 参照={ref}"
         dut._log.info("sed_comp: 60 ケース == セデニオン積成分（16積の融合MAC） ✓")
+
+
+def _s(v, W):   # two's complement integer -> unsigned bit pattern
+    return v & ((1 << W) - 1)
+def _u(v, W):   # unsigned bit pattern -> two's complement integer
+    v = int(v) & ((1 << W) - 1); return v - (1 << W) if v >> (W - 1) else v
+
+if TOP == "bin_mult11":
+    @cocotb.test()
+    async def bin_mult_rows(dut):
+        K = 11; lim = 1 << (K - 1)
+        for a, b in [(0, 0), (lim - 1, lim - 1), (-lim, -lim), (-lim, lim - 1), (1, -1)] + \
+                    [(rnd.randrange(-lim, lim), rnd.randrange(-lim, lim)) for _ in range(300)]:
+            dut.x.value = _s(a, K); dut.y.value = _s(b, K)
+            await settle()
+            got = _u(int(dut.z0.value) + int(dut.z1.value), 2 * K)
+            assert got == a * b, f"bin_mult11({a},{b}): rows sum {got} ≠ {a*b}"
+        dut._log.info("bin_mult11: 305 ケース、2 行の和 == a·b ✓")
+
+elif TOP == "bin_mult11_ks":
+    @cocotb.test()
+    async def bin_mult_resolved(dut):
+        K = 11; lim = 1 << (K - 1)
+        for a, b in [(0, 0), (lim - 1, lim - 1), (-lim, -lim), (-lim, lim - 1), (1, -1)] + \
+                    [(rnd.randrange(-lim, lim), rnd.randrange(-lim, lim)) for _ in range(300)]:
+            dut.x.value = _s(a, K); dut.y.value = _s(b, K)
+            await settle()
+            got = _u(int(dut.z.value), 2 * K)
+            assert got == a * b, f"bin_mult11_ks({a},{b}) = {got} ≠ {a*b}"
+        dut._log.info("bin_mult11_ks: 305 ケース == a·b ✓")
+
+elif TOP == "bin_mac11":
+    @cocotb.test()
+    async def bin_mac_chain(dut):
+        K = 11; W = 2 * K + 4; lim = 1 << (K - 1)
+        for _ in range(60):
+            acc0, acc1 = 0, 0; want = 0
+            for _ in range(8):                      # 8-term dot product, accumulator never resolved
+                a = rnd.randrange(-lim, lim); b = rnd.randrange(-lim, lim); want += a * b
+                dut.x.value = _s(a, K); dut.y.value = _s(b, K); dut.a0.value = acc0; dut.a1.value = acc1
+                await settle()
+                acc0, acc1 = int(dut.c0.value), int(dut.c1.value)
+            assert _u(acc0 + acc1, W) == want, f"bin_mac11 chain: {_u(acc0+acc1, W)} ≠ {want}"
+        dut._log.info("bin_mac11: 60 本の 8 項積和、carry-save のまま累積して一致 ✓")

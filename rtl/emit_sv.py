@@ -162,6 +162,24 @@ def gen_sed_comp(M=16, K=6, k=1):
     return len(Z)
 
 
+def gen_bin(K=11):
+    """binary carry-save counterparts (bin2_gates.py): tree-only multiplier (two rows out), resolved multiplier,
+    and a multiply-accumulate that keeps the accumulator in carry-save form."""
+    from bin2_gates import mul_cs, resolve, mac_cs
+    def wires(row): return [b if isinstance(b, T) else T._const(int(b)) for b in row]
+    reset(); X = in_bus("x", K); Y = in_bus("y", K)
+    r0, r1 = mul_cs(X, Y, null_st())
+    emit_module(os.path.join(OUT, "bin_mult11.sv"), "bin_mult11", [("x", K), ("y", K)],
+                [("z0", 2 * K, wires(r0)), ("z1", 2 * K, wires(r1))])
+    reset(); X = in_bus("x", K); Y = in_bus("y", K)
+    z = resolve(mul_cs(X, Y, null_st()), null_st())
+    emit_module(os.path.join(OUT, "bin_mult11_ks.sv"), "bin_mult11_ks", [("x", K), ("y", K)], [("z", 2 * K, wires(z))])
+    W = 2 * K + 4
+    reset(); X = in_bus("x", K); Y = in_bus("y", K); A0 = in_bus("a0", W); A1 = in_bus("a1", W)
+    c0, c1 = mac_cs(X, Y, (A0, A1), null_st())
+    emit_module(os.path.join(OUT, "bin_mac11.sv"), "bin_mac11", [("x", K), ("y", K), ("a0", W), ("a1", W)],
+                [("c0", W, wires(c0)), ("c1", W, wires(c1))])
+
 if __name__ == "__main__":
     print("SV 自動生成（監査済み Python → 同一ゲートグラフ）:")
     wz = gen_sd_mult()
@@ -169,4 +187,5 @@ if __name__ == "__main__":
     gen_barrel()
     gen_blocknorm()
     ws = gen_sed_comp()
+    gen_bin()
     print(f"  （sd_mult10 出力幅 {wz}・sed_comp 出力幅 {ws}）")
